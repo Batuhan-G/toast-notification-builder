@@ -4,7 +4,7 @@ Phased so each phase ends in a working, committable state. After every phase: `n
 
 ## Phase 0 — Scaffold (~30 min)
 
-1. `npm create vite@latest toast-notification-builder -- --template vue-ts`
+1. `npm create vue@latest toast-notification-builder` (TypeScript + ESLint + Prettier; Pinia added manually, Jest integrated manually per `docs/TESTING.md` since the spec mandates Jest over Vitest).
 2. Add deps: `pinia`, `nanoid`, `sass`. Dev deps: `jest@29`, `@vue/test-utils`, `@vue/vue3-jest@29`, `babel-jest@29`, `@babel/core`, `@babel/preset-env`, `@babel/preset-typescript`, `jest-environment-jsdom`, `ts-jest` (types), `eslint` + `eslint-plugin-vue` + TS plugins, `prettier` (+ eslint-config-prettier).
 3. Configure `tsconfig.json` (`strict: true`, `@/*` path alias), `vite.config.ts` (alias), `jest.config.cjs` + `babel.config.cjs` per `docs/TESTING.md`.
 4. Write a smoke test (`expect(true)`) to verify the Jest pipeline, then delete it in Phase 6.
