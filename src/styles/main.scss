@@ -1,0 +1,21 @@
+@use 'variables' as *;
+@use 'animations';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: $font-family;
+  background-color: $color-page-bg;
+  color: $color-text;
+  min-height: 100vh;
+}
+
+#app {
+  min-height: 100vh;
+}
