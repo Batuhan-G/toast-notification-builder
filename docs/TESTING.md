@@ -49,7 +49,7 @@ module.exports = {
 2. **`import.meta.env`** is unavailable under Jest. Don't use it in code under test (we don't need it at all in this project).
 3. **SCSS imports** in components crash Jest → the `moduleNameMapper` style mock above.
 4. **Teleport** in mounted components: test `ToastItem` directly (no Teleport) and test the notifications store separately. If `ToastContainer` must be mounted, use `global.stubs: { teleport: true }`.
-5. **Pinia in tests**: `setActivePinia(createPinia())` in `beforeEach`. Reset modules if timer Map state leaks between tests (export a `__clearTimersForTest` helper or just `dismiss` everything in `afterEach`).
+5. **Pinia in tests**: `setActivePinia(createPinia())` in `beforeEach`. The notifications timer Map is module-level, so call the store's public `clearAll()` in `afterEach` to clear timers and toasts between tests (no dedicated test-only helper — `clearAll()` already covers it).
 6. **nanoid is pure ESM** and breaks Jest's default transform. Either add `transformIgnorePatterns: ['/node_modules/(?!nanoid)']` with babel transforming it, or mock it: `jest.mock('nanoid', () => ({ nanoid: () => 'test-id-' + counter++ }))`. The mock is simpler and more deterministic — prefer it.
 
 ## Test plan (≥8 tests, ordered by value)

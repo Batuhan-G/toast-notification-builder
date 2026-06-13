@@ -12,6 +12,7 @@ import { createDefaultConfig, TYPE_DEFAULTS } from '@/utils/defaults'
 export const useBuilderStore = defineStore('builder', () => {
   const config = ref<Omit<NotificationConfig, 'id'>>(createDefaultConfig())
   const colorsCustomized = ref(false)
+  const previousDuration = ref(config.value.duration)
 
   function setType(type: NotificationType): void {
     config.value.type = type
@@ -31,11 +32,15 @@ export const useBuilderStore = defineStore('builder', () => {
   }
 
   function setDuration(duration: number): void {
-    config.value.duration = Math.max(0, duration)
+    const clamped = Math.max(0, duration)
+    config.value.duration = clamped
+    if (clamped > 0) {
+      previousDuration.value = clamped
+    }
   }
 
   function setPersistent(persistent: boolean): void {
-    config.value.duration = persistent ? 0 : 3000
+    config.value.duration = persistent ? 0 : previousDuration.value
   }
 
   function setPosition(position: Position): void {
@@ -71,6 +76,9 @@ export const useBuilderStore = defineStore('builder', () => {
   function applyPreset(preset: Preset): void {
     config.value = { ...preset.config }
     colorsCustomized.value = true
+    if (preset.config.duration > 0) {
+      previousDuration.value = preset.config.duration
+    }
   }
 
   return {

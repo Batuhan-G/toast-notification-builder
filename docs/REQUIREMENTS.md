@@ -90,3 +90,4 @@ Backend, routing, i18n, pause-on-hover for progress, multi-user collaboration, e
 5. Custom icon is implemented as **upload, not third-party icon library**, to stay within the brief's allowed-libraries list. The brief lists both as acceptable bonus paths, so this is a deliberate choice in favour of zero-dependency demonstration. Upload limit (100 KB) keeps presets serializable within typical localStorage budgets.
 6. Theme defaults to system preference on first load; once the user explicitly toggles, the choice sticks across sessions.
 7. localStorage keys: `toast-builder:presets` and `toast-builder:theme` — same namespace prefix, distinct suffix per concern.
+8. Toggling "Persistent" off restores the previously set duration (tracked internally as `previousDuration`), not a hard-coded default, so the user's last slider value is preserved.

@@ -58,16 +58,11 @@ export const useNotificationsStore = defineStore('notifications', () => {
     toasts.value = []
   }
 
-  function __clearTimersForTest(): void {
-    clearAll()
-  }
-
   return {
     toasts,
     byPosition,
     show,
     dismiss,
     clearAll,
-    __clearTimersForTest,
   }
 })

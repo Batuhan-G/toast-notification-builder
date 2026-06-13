@@ -30,8 +30,8 @@ Phased so each phase ends in a working, committable state. After every phase: `n
 
 1. `stores/builder.ts` — state: `config: Omit<NotificationConfig,'id'>`, `colorsCustomized`; actions: `setType`, `setTitle`, `setMessage`, `setDuration`, `setPersistent`, `setPosition`, `setBackgroundColor`, `setTextColor`, `toggleIcon`, `toggleCloseButton`, `setAnimation`, `setCustomIcon(dataUrl: string | null)`, `applyPreset`.
 2. `stores/notifications.ts` — state: `toasts: ActiveNotification[]`; getters: `byPosition`; actions: `show(config)`, `dismiss(id)`, `clearAll`; module-level timer Map.
-3. `stores/presets.ts` — state hydrated from storage on init; actions: `savePreset(name)`, `deletePreset(id)`, with write-through to storage.
-4. `stores/theme.ts` — state: `theme: Theme`, hydrated via `loadTheme()`; action: `toggle()`; a `watch(theme, …, { immediate: true })` writes `<html data-theme>` and calls `saveTheme()`. **Must be initialised at app bootstrap** (call `useThemeStore()` once in `main.ts` after `app.use(createPinia())` so the watcher attaches before first render).
+3. `stores/presets.ts` — state hydrated from storage on init; actions: `savePreset(name, config)` (caller passes the config so the store stays decoupled from `builder`), `deletePreset(id)`, with write-through to storage.
+4. `stores/theme.ts` — state: `theme: Theme`, hydrated via `loadTheme()`; action: `toggle()`; set `<html data-theme>` once imperatively at store init for correct first paint, then a **non-immediate** `watch(theme, …)` writes `<html data-theme>` and calls `saveTheme()` only on an actual change (the system-preference default must not be persisted before an explicit toggle — REQUIREMENTS F6.5 / Assumption #6). **Must be initialised at app bootstrap** (call `useThemeStore()` once in `main.ts` after `app.use(createPinia())`).
 
 ✅ Exit: stores compile; quick console sanity via dev tools optional. Commit.
 
