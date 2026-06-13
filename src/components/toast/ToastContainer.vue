@@ -1,27 +1,21 @@
 <script setup lang="ts">
 import { useNotificationsStore } from '@/stores/notifications'
 import { POSITIONS } from '@/types/notification'
-import type { Position } from '@/types/notification'
 import ToastItem from './ToastItem.vue'
 
 const notifications = useNotificationsStore()
-
-function animationName(position: Position): string {
-  const firstToast = notifications.byPosition[position][0]
-  return firstToast ? `toast-${firstToast.animation}` : 'toast-fade'
-}
 </script>
 
 <template>
   <Teleport to="body">
-    <div class="toast-overlay" aria-live="polite">
+    <div class="toast-overlay">
       <div
         v-for="position in POSITIONS"
         :key="position"
         class="toast-container"
         :class="`toast-container--${position}`"
       >
-        <TransitionGroup :name="animationName(position)" tag="div" class="toast-stack">
+        <TransitionGroup name="toast" tag="div" class="toast-stack">
           <ToastItem
             v-for="toast in notifications.byPosition[position]"
             :key="toast.id"

@@ -4,7 +4,7 @@ import type { NotificationConfig } from '@/types/notification'
 import { TYPE_ICONS } from './icons'
 
 const props = defineProps<{
-  config: Omit<NotificationConfig, 'id'> & { id?: string; duration?: number; createdAt?: number }
+  config: Omit<NotificationConfig, 'id'>
   preview?: boolean
 }>()
 
@@ -24,8 +24,8 @@ const progressDuration = computed<string>(() => `${props.config.duration}ms`)
     class="toast"
     :class="{ 'toast--persistent': isPersistent }"
     :style="{ backgroundColor: config.backgroundColor, color: config.textColor }"
-    role="status"
-    :aria-live="config.type === 'error' ? 'assertive' : 'polite'"
+    :data-animation="config.animation"
+    :role="config.type === 'error' ? 'alert' : 'status'"
   >
     <div class="toast__icon" v-if="config.showIcon">
       <img

@@ -39,7 +39,7 @@ Phased so each phase ends in a working, committable state. After every phase: `n
 
 1. `components/toast/icons.ts` — `TYPE_ICONS: Record<NotificationType, string>` exporting inline SVG markup strings (success check, error X, warning triangle, info circle) per the reference design.
 2. `ToastItem.vue` — icon area: if `config.customIcon` non-null → render `<img :src="config.customIcon" alt="">`, else inline SVG from `TYPE_ICONS[config.type]` via `v-html`; title, message, close button, progress bar; styles driven by `config.backgroundColor/textColor`; emits `close`.
-3. `ToastContainer.vue` — Teleport, **six** position wrappers, `<TransitionGroup>` with dynamic name from each toast's animation, renders from notifications store.
+3. `ToastContainer.vue` — Teleport, **six** position wrappers, a single `<TransitionGroup name="toast">`; the per-toast animation is driven by a `data-animation` attribute on each ToastItem, renders from notifications store.
 4. `_animations.scss` — fade/slide/bounce enter/leave + `-move` classes; respect `prefers-reduced-motion`.
 5. Temporary dev button to spawn toasts; verify stacking, auto-dismiss, manual close, persistent.
 
