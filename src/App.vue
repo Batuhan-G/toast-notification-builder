@@ -16,21 +16,21 @@
 @use '@/styles/variables' as *;
 
 .app__header {
-  background-color: $color-card-bg;
-  border-bottom: 1px solid $color-card-border;
-  padding: $space-md $space-lg;
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-default);
+  padding: $space-4 $space-6;
 
   h1 {
     max-width: $layout-max-width;
     margin: 0 auto;
-    font-size: 1.25rem;
+    font-size: $font-size-xl;
     font-weight: 600;
   }
 }
 
 .app__content {
   max-width: $layout-max-width;
-  margin: $space-lg auto;
-  padding: 0 $space-lg;
+  margin: $space-6 auto;
+  padding: 0 $space-6;
 }
 </style>

@@ -13,10 +13,6 @@
 
 - `strict: true`; additionally `noUnusedLocals`, `noUnusedParameters`.
 - Never `any` / `@ts-ignore` / non-null `!` assertions. Use `unknown` + type guards at I/O boundaries (localStorage, clipboard).
-- Prefer union types + `Record<Union, T>` maps over enums and if/else chains:
-  ```ts
-  const TYPE_ICONS: Record<NotificationType, string> = { success: '✓', error: '✕', warning: '⚠', info: 'ℹ' };
-  ```
 - Export shared types only from `src/types/`; utils/stores import from there.
 - Explicit return types on every exported function and store action.
 - Use `Omit`, `Pick`, `Readonly` deliberately — the spec's own model uses `Omit`, mirror that style.
@@ -30,6 +26,7 @@
 
 ## SCSS / styling
 
+- **Two token layers**: `_variables.scss` holds non-theme tokens (radii, spacing, font sizes, z-index — values that don't change between themes). `_themes.scss` holds CSS custom properties under `[data-theme='light']` and `[data-theme='dark']` for everything that does (backgrounds, text, borders, accent, shadows). All component styles read theme-aware values exclusively via `var(--token)`; never hardcode chrome colors. The one designed exception is `ToastItem`'s inline `:style` for `backgroundColor`/`textColor` — those are user data, not theme tokens.
 - Tokens in `_variables.scss`; no magic hex values inside components (toast bg/text colors come from config via inline style — that's the one exception, by design).
 - Scoped styles per component; shared animation classes are global (`_animations.scss`) because `TransitionGroup` classes must be resolvable.
 - BEM-lite naming inside components (`.toast`, `.toast__title`, `.toast--persistent`).

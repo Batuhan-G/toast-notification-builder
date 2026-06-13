@@ -8,8 +8,8 @@ Distilled from the trial-day brief. Each item has acceptance criteria (AC) — a
 |---|---|---|
 | Functionality | 30% | Every core feature works, edge cases handled |
 | Code Quality | 25% | Small focused files, clear naming, no duplication, clean commits |
-| TypeScript | 20% | Strict mode, precise types, no `any`, typed boundaries (localStorage, events) |
-| UI/UX | 15% | Polished layout matching the reference screenshot, smooth animations, sensible defaults |
+| TypeScript | 20% | Strict mode, precise types, no `any`, typed boundaries (localStorage, clipboard, file uploads) |
+| UI/UX | 15% | Polished layout matching the reference screenshot, smooth animations, sensible defaults, both themes look intentional |
 | Testing | 10% | Meaningful tests beyond the minimum 2 |
 
 ## F1 — Configuration Panel
@@ -57,21 +57,36 @@ Distilled from the trial-day brief. Each item has acceptance criteria (AC) — a
 - **F5.2 Load**: applies preset config to the builder (preview updates).
 - **F5.3 List**: shows name + summary line (e.g. "3s · Top Right", "Persistent · Bottom Right") + type color dot, matching the reference screenshot.
 - **F5.4 Persistence**: localStorage, key `toast-builder:presets`, survives reload. Corrupt/missing data degrades to empty list, never crashes. [tested]
-- **F5.5 Delete** (bonus, in scope): per-preset Delete button.
+- **F5.5 Delete** (bonus, in scope): per-preset Delete button with confirmation hover state (no modal dialog needed).
 
-## F6 — Bonus (committed scope)
+## F6 — Bonus (full bonus set — all committed)
 
 - **F6.1 Animation styles**: fade / slide / bounce selector (3-segment control).
 - **F6.2 Code export**: dark code block showing a `const notification = { ... }` snippet generated from current config + "Copy to Clipboard" button (uses `navigator.clipboard`, with success feedback). [tested — pure generator function]
 - **F6.3 Progress bar**: thin bar on the toast showing remaining time (hidden when persistent). CSS-animation driven (`animation-duration` = duration), pauses are not required.
+- **F6.4 Custom icon upload**: file input in the config panel lets the user override the default type icon with their own image.
+  - AC: only `image/*` MIME types accepted; max size 100 KB; both checks run client-side with an inline error message on rejection — invalid files do NOT mutate state.
+  - AC: valid files are converted to a data URL via `FileReader.readAsDataURL` and stored in `config.customIcon`.
+  - AC: when `customIcon` is non-null and `showIcon` is true, the toast renders an `<img>` with the data URL in place of the default type SVG.
+  - AC: a "Use default icon" button (or X on the preview) sets `customIcon` back to `null`.
+  - AC: presets serialize the data URL; code export includes the URL literally (no special handling — it's just another string field). [tested — validation pure function]
+- **F6.5 Theme toggle**: light / dark theme for the builder interface.
+  - AC: toggle button in the header switches `[data-theme]` on `<html>` between `'light'` and `'dark'`.
+  - AC: choice persists to localStorage under key `toast-builder:theme`; on first visit, `window.matchMedia('(prefers-color-scheme: dark)')` decides the default.
+  - AC: only builder chrome (page, cards, inputs, buttons, presets list, code block) themes — toast colors remain user-configured and identical in both themes.
+  - AC: toggling is instant; chrome transitions are subtle (~150 ms ease) and suppressed under `prefers-reduced-motion: reduce`.
+  - AC: toggle button has `aria-pressed` reflecting current state and is keyboard-reachable. [tested — theme store persistence + system preference fallback]
 
 ## Out of scope (do not build)
 
-Custom icon upload, dark/light theme toggle for the builder, backend, routing, i18n. If time remains, prefer polish and tests over new features.
+Backend, routing, i18n, pause-on-hover for progress, multi-user collaboration, exporting full SCSS/Vue snippets. If time remains, prefer polish and an extra meaningful test over new features.
 
 ## Assumptions (also record in README)
 
 1. "Persistent" maps to `duration: 0` per the data model comment.
-2. TC/BC positions are an additive enhancement seen in the reference design; the `Position` type is extended accordingly.
+2. TC/BC positions are an additive enhancement seen in the reference design; the `Position` type is extended accordingly (6 values total).
 3. Duration slider is in whole seconds in the UI but stored as milliseconds.
-4. Type defaults: success `#22c55e`, error `#ef4444`, warning `#f59e0b`, info `#3b82f6`; text `#ffffff` (warning may use dark text `#1f2937` for contrast).
+4. Type defaults: success `#22c55e`, error `#ef4444`, warning `#f59e0b`, info `#3b82f6`. Default text color is `#ffffff`; **warning uses `#1f2937`** for WCAG AA contrast on the amber background.
+5. Custom icon is implemented as **upload, not third-party icon library**, to stay within the brief's allowed-libraries list. The brief lists both as acceptable bonus paths, so this is a deliberate choice in favour of zero-dependency demonstration. Upload limit (100 KB) keeps presets serializable within typical localStorage budgets.
+6. Theme defaults to system preference on first load; once the user explicitly toggles, the choice sticks across sessions.
+7. localStorage keys: `toast-builder:presets` and `toast-builder:theme` — same namespace prefix, distinct suffix per concern.

@@ -30,7 +30,7 @@ module.exports = {
   testMatch: ['**/__tests__/**/*.spec.ts'],
   // vue3-jest needs this to know the Vue version context
   testEnvironmentOptions: { customExportConditions: ['node', 'node-addons'] },
-};
+}
 ```
 
 `test/styleMock.cjs`: `module.exports = {};`
@@ -39,11 +39,8 @@ module.exports = {
 
 ```js
 module.exports = {
-  presets: [
-    ['@babel/preset-env', { targets: { node: 'current' } }],
-    '@babel/preset-typescript',
-  ],
-};
+  presets: [['@babel/preset-env', { targets: { node: 'current' } }], '@babel/preset-typescript'],
+}
 ```
 
 ## Known pitfalls
@@ -55,11 +52,12 @@ module.exports = {
 5. **Pinia in tests**: `setActivePinia(createPinia())` in `beforeEach`. Reset modules if timer Map state leaks between tests (export a `__clearTimersForTest` helper or just `dismiss` everything in `afterEach`).
 6. **nanoid is pure ESM** and breaks Jest's default transform. Either add `transformIgnorePatterns: ['/node_modules/(?!nanoid)']` with babel transforming it, or mock it: `jest.mock('nanoid', () => ({ nanoid: () => 'test-id-' + counter++ }))`. The mock is simpler and more deterministic — prefer it.
 
-## Test plan (≥6 tests, ordered by value)
+## Test plan (≥8 tests, ordered by value)
 
 ### 1. `stores/notifications.spec.ts` (highest value — core behavior)
+
 ```ts
-jest.useFakeTimers();
+jest.useFakeTimers()
 // show() adds a toast with generated id and createdAt
 // auto-dismiss: advanceTimersByTime(duration) → toast removed
 // persistent: duration 0 → advance 60s → still present
@@ -67,7 +65,9 @@ jest.useFakeTimers();
 ```
 
 ### 2. `stores/presets.spec.ts`
+
 Mock localStorage (`jest.spyOn(Storage.prototype, 'getItem'/'setItem')` or a manual stub):
+
 ```ts
 // savePreset writes JSON containing the preset name
 // init with corrupt JSON ("{oops") → presets === []
@@ -75,12 +75,14 @@ Mock localStorage (`jest.spyOn(Storage.prototype, 'getItem'/'setItem')` or a man
 ```
 
 ### 3. `utils/codeExport.spec.ts`
+
 ```ts
 // generateCodeSnippet(config) === expected string (exact match)
 // persistent config renders duration: 0
 ```
 
 ### 4. `components/ToastItem.spec.ts`
+
 ```ts
 // renders title and message text
 // showIcon: false → no icon element
@@ -89,10 +91,23 @@ Mock localStorage (`jest.spyOn(Storage.prototype, 'getItem'/'setItem')` or a man
 ```
 
 ### 5. `stores/builder.spec.ts`
+
 ```ts
 // setType('error') applies error default colors
 // setBackgroundColor('#000000') then setType('info') → custom color preserved
 ```
+
+### 6. `utils/iconUpload.spec.ts`
+
+- `validateIconFile` rejects `application/pdf` with a clear reason.
+- `validateIconFile` rejects a 200 KB file even if it's an image.
+- `validateIconFile` accepts a small PNG `File`.
+
+### 7. `stores/theme.spec.ts`
+
+- Initial theme: with storage empty and `matchMedia('(prefers-color-scheme: dark)')` mocked to `true`, store boots to `'dark'`.
+- `toggle()` flips theme and writes to storage.
+- After `toggle()`, `document.documentElement.dataset.theme` reflects the new value.
 
 ## Conventions
 
