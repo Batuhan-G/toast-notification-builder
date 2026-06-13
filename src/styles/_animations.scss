@@ -1,2 +1,135 @@
 // Toast animation classes for <TransitionGroup>
-// Populated in Phase 3
+// Each animation has enter-active, leave-active, enter-from, leave-to, and move classes.
+
+// === Fade ===
+.toast-fade-enter-active,
+.toast-fade-leave-active {
+  transition: opacity 300ms ease;
+}
+
+.toast-fade-enter-from,
+.toast-fade-leave-to {
+  opacity: 0;
+}
+
+.toast-fade-move {
+  transition: transform 300ms ease;
+}
+
+// === Slide ===
+// Default slide direction (right); position-specific overrides in ToastContainer.
+.toast-slide-enter-active,
+.toast-slide-leave-active {
+  transition: transform 300ms ease, opacity 300ms ease;
+}
+
+.toast-slide-enter-from,
+.toast-slide-leave-to {
+  opacity: 0;
+}
+
+// Right positions: slide from right
+.toast-container--top-right,
+.toast-container--bottom-right {
+  .toast-slide-enter-from {
+    transform: translateX(100%);
+  }
+  .toast-slide-leave-to {
+    transform: translateX(100%);
+  }
+}
+
+// Left positions: slide from left
+.toast-container--top-left,
+.toast-container--bottom-left {
+  .toast-slide-enter-from {
+    transform: translateX(-100%);
+  }
+  .toast-slide-leave-to {
+    transform: translateX(-100%);
+  }
+}
+
+// Center-top: slide from top
+.toast-container--top-center {
+  .toast-slide-enter-from {
+    transform: translateY(-100%);
+  }
+  .toast-slide-leave-to {
+    transform: translateY(-100%);
+  }
+}
+
+// Center-bottom: slide from bottom
+.toast-container--bottom-center {
+  .toast-slide-enter-from {
+    transform: translateY(100%);
+  }
+  .toast-slide-leave-to {
+    transform: translateY(100%);
+  }
+}
+
+.toast-slide-move {
+  transition: transform 300ms ease;
+}
+
+// === Bounce ===
+.toast-bounce-enter-active {
+  animation: bounce-in 400ms ease;
+}
+
+.toast-bounce-leave-active {
+  animation: bounce-out 300ms ease forwards;
+}
+
+.toast-bounce-move {
+  transition: transform 300ms ease;
+}
+
+@keyframes bounce-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes bounce-out {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  20% {
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+}
+
+// === Reduced motion ===
+@media (prefers-reduced-motion: reduce) {
+  .toast-fade-enter-active,
+  .toast-fade-leave-active,
+  .toast-slide-enter-active,
+  .toast-slide-leave-active,
+  .toast-bounce-enter-active,
+  .toast-bounce-leave-active,
+  .toast-fade-move,
+  .toast-slide-move,
+  .toast-bounce-move {
+    transition-duration: 0ms;
+    animation-duration: 0ms;
+  }
+}
