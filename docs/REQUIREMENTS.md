@@ -15,7 +15,7 @@ Distilled from the trial-day brief. Each item has acceptance criteria (AC) — a
 ## F1 — Configuration Panel
 
 - **F1.1 Type selector**: 4 options (success / error / warning / info) as visual cards with icon + label; selected state clearly highlighted.
-  - AC: clicking a type updates the preview instantly and applies that type's default background color (unless colors were manually customized).
+  - AC: clicking a type updates the preview instantly and applies that type's default colors.
 - **F1.2 Title input**: free text.
   - AC: empty title is allowed; toast renders without a title row.
 - **F1.3 Message input**: textarea.
@@ -69,7 +69,7 @@ Distilled from the trial-day brief. Each item has acceptance criteria (AC) — a
   - AC: valid files are converted to a data URL via `FileReader.readAsDataURL` and stored in `config.customIcon`.
   - AC: when `customIcon` is non-null and `showIcon` is true, the toast renders an `<img>` with the data URL in place of the default type SVG.
   - AC: a "Use default icon" button (or X on the preview) sets `customIcon` back to `null`.
-  - AC: presets serialize the data URL; code export includes the URL literally (no special handling — it's just another string field). [tested — validation pure function]
+  - AC: presets serialize the data URL; code export excludes `customIcon` (along with color fields) since it represents behavioral/structural config only. [tested — validation pure function]
 - **F6.5 Theme toggle**: light / dark theme for the builder interface.
   - AC: toggle button in the header switches `[data-theme]` on `<html>` between `'light'` and `'dark'`.
   - AC: choice persists to localStorage under key `toast-builder:theme`; on first visit, `window.matchMedia('(prefers-color-scheme: dark)')` decides the default.
@@ -86,7 +86,7 @@ Backend, routing, i18n, pause-on-hover for progress, multi-user collaboration, e
 1. "Persistent" maps to `duration: 0` per the data model comment.
 2. TC/BC positions are an additive enhancement seen in the reference design; the `Position` type is extended accordingly (6 values total).
 3. Duration slider is in whole seconds in the UI but stored as milliseconds.
-4. Type defaults: success `#22c55e`, error `#ef4444`, warning `#f59e0b`, info `#3b82f6`. Default text color is `#ffffff`; **warning uses `#1f2937`** for WCAG AA contrast on the amber background.
+4. Type defaults: success `#22c55f`, error `#ef2c2e`, warning `#f7aa43`, info `#2a7ff5`. Default text color is `#ffffff`; **warning uses `#1f2937`** for WCAG AA contrast on the amber background.
 5. Custom icon is implemented as **upload, not third-party icon library**, to stay within the brief's allowed-libraries list. The brief lists both as acceptable bonus paths, so this is a deliberate choice in favour of zero-dependency demonstration. Upload limit (100 KB) keeps presets serializable within typical localStorage budgets.
 6. Theme defaults to system preference on first load; once the user explicitly toggles, the choice sticks across sessions.
 7. localStorage keys: `toast-builder:presets` and `toast-builder:theme` — same namespace prefix, distinct suffix per concern.

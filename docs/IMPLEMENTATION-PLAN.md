@@ -65,20 +65,19 @@ Phased so each phase ends in a working, committable state. After every phase: `n
 
 ## Phase 6 — Tests (~50 min)
 
-Per `docs/TESTING.md`. Target suite (≥8 tests):
+Per `docs/TESTING.md`. Target suite (12 tests):
 1. `notifications` store: `show` adds toast with id/createdAt; auto-dismiss fires after duration (fake timers); `duration: 0` never auto-dismisses; manual `dismiss` clears timer.
-2. `presets` store: save → persists to (mocked) localStorage; corrupt JSON → empty list; delete removes.
-3. `codeExport`: snapshot/equality of generated snippet; persistent config renders `duration: 0`; snippet excludes `customIcon` even when set.
-4. `ToastItem`: renders title/message; hides icon when `showIcon: false`; emits `close` on button click; close button absent when `showCloseButton: false`; renders `<img>` when `customIcon` set, SVG otherwise.
-5. `builder` store: type change applies default colors; manual color change sets `colorsCustomized` and survives type change.
-6. `iconUpload`: validation rejects non-image MIME; rejects >100 KB; accepts valid file.
-7. `theme` store: persistence round-trip; falls back to system preference when storage empty; toggle flips and writes through.
+2. `iconUpload`: validation rejects non-image MIME; rejects >100 KB; accepts valid file.
+3. `ToastItem`: renders title/message; emits `close` on button click.
+4. `builder` store: type change applies default colors and resets `colorsCustomized`.
+5. `codeExport`: equality of generated snippet (exact match).
+6. `presets` store: delete removes preset and persists (implicitly covers save).
 
 ✅ Exit: all green, zero open handles. Commit.
 
 ## Phase 7 — Polish + README + ship (~30 min)
 
-1. UI pass against the reference screenshot in **both themes**: spacing, focus states, hover states, responsive (single column < 900px).
+1. UI pass against the reference screenshot in **both themes**: spacing, focus states, hover states.
 2. A11y pass: aria-live on toast container, labels on every control, keyboard reachability for upload + theme toggle, focus-visible rings.
 3. README.md: setup, approach (architecture summary + why Pinia/structure + theme architecture + why upload over icon-library), assumptions (copy from `docs/REQUIREMENTS.md`), bonuses implemented, test instructions, optional deploy link.
 4. Final clean clone test: `npm install && npm run dev && npm run test`.

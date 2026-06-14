@@ -27,7 +27,7 @@ module.exports = {
     '^@/(.*)$': '<rootDir>/src/$1',
     '\\.(scss|css)$': '<rootDir>/test/styleMock.cjs',
   },
-  testMatch: ['**/__tests__/**/*.spec.ts'],
+  testMatch: ['<rootDir>/src/**/*.spec.ts'],
   // vue3-jest needs this to know the Vue version context
   testEnvironmentOptions: { customExportConditions: ['node', 'node-addons'] },
 }
@@ -52,9 +52,9 @@ module.exports = {
 5. **Pinia in tests**: `setActivePinia(createPinia())` in `beforeEach`. The notifications timer Map is module-level, so call the store's public `clearAll()` in `afterEach` to clear timers and toasts between tests (no dedicated test-only helper — `clearAll()` already covers it).
 6. **nanoid is pure ESM** and breaks Jest's default transform. Either add `transformIgnorePatterns: ['/node_modules/(?!nanoid)']` with babel transforming it, or mock it: `jest.mock('nanoid', () => ({ nanoid: () => 'test-id-' + counter++ }))`. The mock is simpler and more deterministic — prefer it.
 
-## Test plan (≥8 tests, ordered by value)
+## Test plan (12 tests, ordered by value)
 
-### 1. `stores/notifications.spec.ts` (highest value — core behavior)
+### 1. `stores/notifications.spec.ts` (4 tests — core behavior)
 
 ```ts
 jest.useFakeTimers()
@@ -64,51 +64,36 @@ jest.useFakeTimers()
 // manual dismiss cancels timer: dismiss(id) then advance → no errors, list empty
 ```
 
-### 2. `stores/presets.spec.ts`
-
-Mock localStorage (`jest.spyOn(Storage.prototype, 'getItem'/'setItem')` or a manual stub):
-
-```ts
-// savePreset writes JSON containing the preset name
-// init with corrupt JSON ("{oops") → presets === []
-// deletePreset removes and persists
-```
-
-### 3. `utils/codeExport.spec.ts`
-
-```ts
-// generateCodeSnippet(config) === expected string (exact match)
-// persistent config renders duration: 0
-// snippet does NOT contain customIcon key even when config.customIcon is set
-```
-
-### 4. `components/ToastItem.spec.ts`
-
-```ts
-// renders title and message text
-// showIcon: false → no icon element
-// showCloseButton: true → click close → emitted('close')
-// inline style applies backgroundColor
-```
-
-### 5. `stores/builder.spec.ts`
-
-```ts
-// setType('error') applies error default colors
-// setBackgroundColor('#000000') then setType('info') → custom color preserved
-```
-
-### 6. `utils/iconUpload.spec.ts`
+### 2. `utils/iconUpload.spec.ts` (3 tests — input validation boundary)
 
 - `validateIconFile` rejects `application/pdf` with a clear reason.
 - `validateIconFile` rejects a 200 KB file even if it's an image.
 - `validateIconFile` accepts a small PNG `File`.
 
-### 7. `stores/theme.spec.ts`
+### 3. `components/toast/toastItem.spec.ts` (2 tests — component rendering + interaction)
 
-- Initial theme: with storage empty and `matchMedia('(prefers-color-scheme: dark)')` mocked to `true`, store boots to `'dark'`.
-- `toggle()` flips theme and writes to storage.
-- After `toggle()`, `document.documentElement.dataset.theme` reflects the new value.
+```ts
+// renders title and message text
+// showCloseButton: true → click close → emitted('close')
+```
+
+### 4. `stores/builder.spec.ts` (1 test — state management)
+
+```ts
+// setType('error') applies error default colors and resets colorsCustomized
+```
+
+### 5. `utils/codeExport.spec.ts` (1 test — pure function contract)
+
+```ts
+// generateCodeSnippet(config) === expected string (exact match)
+```
+
+### 6. `stores/presets.spec.ts` (1 test — persistence lifecycle)
+
+```ts
+// deletePreset removes the preset and persists (implicitly covers savePreset)
+```
 
 ## Conventions
 

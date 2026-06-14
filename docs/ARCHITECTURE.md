@@ -22,11 +22,16 @@ toast-notification-builder/
     │   ├── defaults.ts            # type→color map, default config factory
     │   ├── storage.ts             # typed, safe localStorage wrapper (presets + theme)
     │   ├── codeExport.ts          # config → code snippet string (pure, tested)
-    │   └── iconUpload.ts          # validateIconFile + fileToDataUrl (pure, tested)
+    │   ├── codeExport.spec.ts     # ← co-located test
+    │   ├── iconUpload.ts          # validateIconFile + fileToDataUrl (pure, tested)
+    │   └── iconUpload.spec.ts     # ← co-located test
     ├── stores/
     │   ├── builder.ts             # config being edited + colorsCustomized flag
+    │   ├── builder.spec.ts        # ← co-located test
     │   ├── notifications.ts       # active toasts, timers, show/dismiss
+    │   ├── notifications.spec.ts  # ← co-located test
     │   ├── presets.ts             # CRUD + localStorage sync
+    │   ├── presets.spec.ts        # ← co-located test
     │   └── theme.ts               # light/dark + persistence + system fallback
     ├── components/
     │   ├── ThemeToggle.vue        # header toggle, aria-pressed
@@ -36,6 +41,7 @@ toast-notification-builder/
     │   │   └── MoonIcon.vue
     │   ├── toast/
     │   │   ├── ToastItem.vue       # single toast (used by preview AND real toasts)
+    │   │   ├── toastItem.spec.ts   # ← co-located test
     │   │   └── ToastContainer.vue  # Teleport + per-position stacks + TransitionGroup
     │   ├── builder/
     │   │   ├── ConfigPanel.vue    # composes the controls below
@@ -56,7 +62,6 @@ toast-notification-builder/
     │   ├── _themes.scss           # CSS custom properties per [data-theme]
     │   ├── _animations.scss       # fade/slide/bounce transition classes
     │   └── main.scss
-    └── __tests__/                 # or co-located *.spec.ts — pick one, stay consistent
 ```
 
 Component granularity rule: a component exists if it has its own state/logic or is reused; don't fragment for its own sake. **~15 components is the ceiling** with the two new bonus pieces.
@@ -99,7 +104,7 @@ Component granularity rule: a component exists if it has its own state/logic or 
 2. **`ToastItem` is shared** between preview and live toasts. Props: `config` (+ optional `preview: boolean` to suppress dismiss behavior). Guarantees preview fidelity.
 3. **Teleport to `<body>`** for `ToastContainer` so toasts are never clipped by layout containers; six fixed-position wrappers (one per `Position`), each a `<TransitionGroup tag="div">`.
 4. **Timers outside reactive state.** `const timers = new Map<string, number>()` module-level in the notifications store; `show()` registers, `dismiss()` clears. Prevents reactivity overhead and leaks; easy to test with `jest.useFakeTimers()`.
-5. **Type-change color behavior**: builder store keeps `colorsCustomized: boolean`. `setType()` applies `TYPE_DEFAULTS[type]` colors only when `colorsCustomized === false`; `setBackgroundColor`/`setTextColor` set the flag. Loading a preset sets the flag (preset colors are explicit).
+5. **Type-change color behavior**: builder store keeps `colorsCustomized: boolean`. `setType()` always applies `TYPE_DEFAULTS[type]` colors and resets `colorsCustomized` to false; `setBackgroundColor`/`setTextColor` set the flag. Loading a preset sets the flag (preset colors are explicit).
 6. **Animations** use a single `<TransitionGroup name="toast">` plus a per-toast `data-animation` attribute; transition CSS is qualified by `[data-animation='…']` so each toast animates with its own style even when several with different animations are stacked at one position. Slide direction is position-scoped via the `.toast-container--*` class.
 7. **Storage wrapper** exposes `loadPresets(): Preset[]`, `savePresets(presets: Preset[]): void`, `loadTheme(): Theme`, `saveTheme(theme: Theme): void`. Parses with `unknown` + a type guard (`isPreset`, literal-union checks for theme), returns safe defaults on any failure. This is the main I/O boundary of the app, so it gets the strictest typing.
 8. **Code export** is a pure function `generateCodeSnippet(config: Omit<NotificationConfig,'id'>): string` — trivially testable, used by `CodeExport.vue` with lightweight syntax-highlight styling (spans, no library).

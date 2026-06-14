@@ -1,48 +1,45 @@
-# toast-notification-builder
+# Toast Notification Builder
 
-This template should help get you started developing with Vue 3 in Vite.
+A toast notification configuration tool built with Vue 3 and TypeScript. Users configure toast notifications (type, title, message, duration, position, colors, icon/close toggles, animation, custom icon), see a live preview, trigger real toasts that stack at the chosen position, and save/load/delete presets persisted in localStorage. The builder supports a light/dark theme toggle.
 
-## Recommended IDE Setup
+## Setup
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+**Prerequisites:** Node.js >= 18
 
-## Recommended Browser Setup
-
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
+```bash
+npm install        # install dependencies
+npm run dev        # start dev server
+npm run build      # type-check + production build
+npm run test       # run tests
+npm run lint       # lint
+npm run format     # format
 ```
 
-### Compile and Hot-Reload for Development
+## Approach
 
-```sh
-npm run dev
-```
+The app uses Vue 3 Composition API with TypeScript in strict mode. State management is handled by four Pinia stores, each with a single responsibility: `builder` (current config), `notifications` (active toasts + timers), `presets` (localStorage-backed CRUD), and `theme` (light/dark toggle with system preference fallback).
 
-### Type-Check, Compile and Minify for Production
+The UI is split into a left Configuration panel and a right Preview panel. A single `ToastItem` component is shared between the static preview and live toasts, ensuring visual fidelity. Real toasts render through a `ToastContainer` mounted via `<Teleport to="body">`, with one stacking column per position. Timer logic lives in the notifications store, not in components, preventing memory leaks and making behavior testable with Jest fake timers.
 
-```sh
-npm run build
-```
+Custom icon upload uses pure validation functions (`validateIconFile`) at the input boundary, keeping the component thin and the logic independently testable. Theme switching is driven by a single `[data-theme]` attribute on `<html>`, with all chrome styles reading from CSS custom properties -- toast colors remain user-configured and identical across themes.
 
-### Lint with [ESLint](https://eslint.org/)
+## Assumptions
 
-```sh
-npm run lint
-```
+1. "Persistent" maps to `duration: 0`.
+2. Top-center and bottom-center positions are an additive enhancement beyond the four required corners, matching the reference design (6 positions total).
+3. Duration slider uses whole seconds in the UI but stores milliseconds internally.
+4. Changing the notification type always applies that type's default colors.
+5. Custom icon is implemented as file upload (not icon library) to stay within the brief's allowed-libraries list. Upload limit is 100 KB.
+6. Theme defaults to system preference on first load; once toggled, the choice persists.
+7. Toggling "Persistent" off restores the previously set slider value.
+
+## Bonus Features
+
+All six bonus features are implemented:
+
+1. **Animation styles** -- fade, slide, and bounce entrance/exit animations
+2. **Code export** -- generated `const notification = { ... }` snippet with copy-to-clipboard
+3. **Preset delete** -- per-preset delete button
+4. **Progress bar** -- visual countdown bar on timed toasts
+5. **Custom icon upload** -- upload a custom image (max 100 KB) to replace the default type icon
+6. **Dark/light theme toggle** -- builder chrome themes via CSS custom properties; toast colors stay user-configured
