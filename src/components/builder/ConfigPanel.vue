@@ -159,6 +159,7 @@ function onAnimationChange(animation: AnimationStyle): void {
 
 .config-panel__section-label {
   margin-bottom: $space-4;
+  color: var(--text-primary);
 }
 
 .config-panel__input,

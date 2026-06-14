@@ -4,5 +4,6 @@
 .field-legend {
   @include label;
   color: var(--text-secondary);
-  margin-bottom: $space-2;
+  display: block;
+  margin-bottom: $space-3;
 }

@@ -2,6 +2,8 @@
 import { useBuilderStore } from '@/stores/builder'
 import { useNotificationsStore } from '@/stores/notifications'
 import ToastItem from '@/components/toast/ToastItem.vue'
+import PresetList from './PresetList.vue'
+import CodeExport from './CodeExport.vue'
 
 const builder = useBuilderStore()
 const notifications = useNotificationsStore()
@@ -27,6 +29,14 @@ function showNotification(): void {
     <button type="button" class="preview-pane__show-btn" @click="showNotification">
       Show Notification
     </button>
+
+    <div class="preview-pane__divider" />
+
+    <PresetList />
+
+    <div class="preview-pane__divider" />
+
+    <CodeExport />
   </div>
 </template>
 
@@ -94,6 +104,12 @@ function showNotification(): void {
     align-items: flex-end;
     justify-content: flex-end;
   }
+}
+
+.preview-pane__divider {
+  border: none;
+  border-top: 1px solid var(--border-default);
+  margin: $space-5 0 0;
 }
 
 .preview-pane__show-btn {

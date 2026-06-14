@@ -18,7 +18,7 @@ export const usePresetsStore = defineStore('presets', () => {
     const preset: Preset = {
       id: nanoid(),
       name: trimmed,
-      config: structuredClone(config),
+      config: JSON.parse(JSON.stringify(config)) as Omit<NotificationConfig, 'id'>,
       createdAt: new Date().toISOString(),
     }
     presets.value.push(preset)
