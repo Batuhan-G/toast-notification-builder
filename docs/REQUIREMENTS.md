@@ -21,7 +21,7 @@ Distilled from the trial-day brief. Each item has acceptance criteria (AC) — a
 - **F1.3 Message input**: textarea.
   - AC: long messages wrap; toast has a max-width and doesn't break layout.
 - **F1.4 Duration**: slider 1–10 s + "Persistent (no auto-dismiss)" checkbox.
-  - AC: slider shows current value (e.g. "3s"); checking Persistent disables the slider and sets duration to 0. [tested]
+  - AC: slider shows current value (e.g. "3s"); checking Persistent disables the slider and sets duration to 0.
 - **F1.5 Position selector**: 4 required corners (TL/TR/BL/BR); we additionally ship TC/BC (top-center/bottom-center) to match the reference UI — additive, allowed.
   - AC: selected position is where triggered toasts appear.
 
@@ -48,7 +48,7 @@ Distilled from the trial-day brief. Each item has acceptance criteria (AC) — a
 - **F4.3** Entrance/exit animations per selected style (fade / slide / bounce) via `<TransitionGroup>`.
   - AC: removing a toast from the middle of a stack animates remaining toasts smoothly into place.
 - **F4.4 Stacking**: multiple toasts coexist, arranged vertically per position.
-  - AC: top positions stack downward (newest at top or bottom — pick one, be consistent); bottom positions stack upward. Toasts at different positions don't interfere. [tested]
+  - AC: top positions stack downward (newest at top or bottom — pick one, be consistent); bottom positions stack upward. Toasts at different positions don't interfere.
 
 ## F5 — Preset Management
 
@@ -75,7 +75,7 @@ Distilled from the trial-day brief. Each item has acceptance criteria (AC) — a
   - AC: choice persists to localStorage under key `toast-builder:theme`; on first visit, `window.matchMedia('(prefers-color-scheme: dark)')` decides the default.
   - AC: only builder chrome (page, cards, inputs, buttons, presets list, code block) themes — toast colors remain user-configured and identical in both themes.
   - AC: toggling is instant; chrome transitions are subtle (~150 ms ease) and suppressed under `prefers-reduced-motion: reduce`.
-  - AC: toggle button has `aria-pressed` reflecting current state and is keyboard-reachable. [tested — theme store persistence + system preference fallback]
+  - AC: toggle button has `aria-pressed` reflecting current state and is keyboard-reachable.
 
 ## Out of scope (do not build)
 

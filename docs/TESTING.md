@@ -20,7 +20,7 @@ module.exports = {
   testEnvironment: 'jsdom',
   moduleFileExtensions: ['js', 'ts', 'vue'],
   transform: {
-    '^.+\\.vue$': '@vue/vue3-jest',
+    '^.+\\.vue$': '<rootDir>/test/vueTransformer.cjs',
     '^.+\\.(ts|js)$': 'babel-jest',
   },
   moduleNameMapper: {
@@ -34,6 +34,8 @@ module.exports = {
 ```
 
 `test/styleMock.cjs`: `module.exports = {};`
+
+`test/vueTransformer.cjs`: wraps `@vue/vue3-jest` with two fixes — (1) inserts a newline before template ESM imports that `vue3-jest` concatenates onto the sourcemap comment (which breaks babel parsing), and (2) patches `exports.default.render` so `@vue/test-utils` picks up the compiled render function.
 
 ## babel.config.cjs
 
@@ -70,7 +72,7 @@ jest.useFakeTimers()
 - `validateIconFile` rejects a 200 KB file even if it's an image.
 - `validateIconFile` accepts a small PNG `File`.
 
-### 3. `components/toast/toastItem.spec.ts` (2 tests — component rendering + interaction)
+### 3. `components/toast/ToastItem.spec.ts` (2 tests — component rendering + interaction)
 
 ```ts
 // renders title and message text

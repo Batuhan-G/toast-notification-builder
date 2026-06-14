@@ -41,7 +41,7 @@ toast-notification-builder/
     │   │   └── MoonIcon.vue
     │   ├── toast/
     │   │   ├── ToastItem.vue       # single toast (used by preview AND real toasts)
-    │   │   ├── toastItem.spec.ts   # ← co-located test
+    │   │   ├── ToastItem.spec.ts   # ← co-located test
     │   │   └── ToastContainer.vue  # Teleport + per-position stacks + TransitionGroup
     │   ├── builder/
     │   │   ├── ConfigPanel.vue    # composes the controls below
@@ -109,7 +109,7 @@ Component granularity rule: a component exists if it has its own state/logic or 
 7. **Storage wrapper** exposes `loadPresets(): Preset[]`, `savePresets(presets: Preset[]): void`, `loadTheme(): Theme`, `saveTheme(theme: Theme): void`. Parses with `unknown` + a type guard (`isPreset`, literal-union checks for theme), returns safe defaults on any failure. This is the main I/O boundary of the app, so it gets the strictest typing.
 8. **Code export** is a pure function `generateCodeSnippet(config: Omit<NotificationConfig,'id'>): string` — trivially testable, used by `CodeExport.vue` with lightweight syntax-highlight styling (spans, no library).
 9. **Custom icon as data URL** (not blob URL): blob URLs are tied to the document and don't survive reload from localStorage; data URLs serialize cleanly. Validation lives in `utils/iconUpload.ts` as two pure functions: `validateIconFile(file: File): { ok: true } | { ok: false; reason: string }` and `fileToDataUrl(file: File): Promise<string>`. The component is a thin shell around these.
-10. **Theme via `[data-theme]` + CSS custom properties** (not a Vue-level class toggle on every component): one attribute on `<html>` switches *all* chrome at once via cascading variables — zero per-component theme code, near-zero refactor cost when adding components. Themes live in `_themes.scss`; consumer components reference `var(--token)` only.
+10. **Theme via `[data-theme]` + CSS custom properties** (not a Vue-level class toggle on every component): one attribute on `<html>` switches _all_ chrome at once via cascading variables — zero per-component theme code, near-zero refactor cost when adding components. Themes live in `_themes.scss`; consumer components reference `var(--token)` only.
 11. **Toast colors are user data, not theme tokens.** `ToastItem` uses inline `:style="{ backgroundColor: config.backgroundColor, color: config.textColor }"` — these values are persisted in presets and emitted in code export verbatim, so they MUST be literal hex strings. Mixing theme variables here would corrupt both persistence and export.
 
 ## Layout (match the reference screenshot)
@@ -122,6 +122,7 @@ Header bar with title on the left and **ThemeToggle on the right**. Below: 2-col
 - **Right card "Preview"**: gray preview stage (`var(--bg-elevated)`) with the static toast positioned per config → full-width primary "Show Notification" button (`var(--accent-primary)`) → "Saved Presets" list → name input + Save → "Code Export" dark block (`var(--bg-code)` regardless of theme — code blocks stay dark for readability) → Copy to Clipboard button.
 
 Style tokens (light theme defaults, defined in `_themes.scss`):
+
 - `--bg-page: #f3f4f6`, `--bg-surface: #ffffff`, `--bg-elevated: #f9fafb`, `--bg-code: #1f2937`
 - `--text-primary: #111827`, `--text-secondary: #4b5563`, `--text-muted: #9ca3af`
 - `--border-default: #e5e7eb`, `--border-focus: #6366f1`
