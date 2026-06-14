@@ -1,18 +1,10 @@
-export const NOTIFICATION_TYPES = ['success', 'error', 'warning', 'info'] as const
-export type NotificationType = (typeof NOTIFICATION_TYPES)[number]
+import type {
+  NotificationType,
+  Position,
+  AnimationStyle,
+} from '@/constants'
 
-export const POSITIONS = [
-  'top-left',
-  'top-center',
-  'top-right',
-  'bottom-left',
-  'bottom-center',
-  'bottom-right',
-] as const
-export type Position = (typeof POSITIONS)[number]
-
-export const ANIMATIONS = ['fade', 'slide', 'bounce'] as const
-export type AnimationStyle = (typeof ANIMATIONS)[number]
+export type { NotificationType, Position, AnimationStyle }
 
 export interface NotificationConfig {
   id: string

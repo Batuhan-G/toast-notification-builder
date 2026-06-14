@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Position } from '@/types/notification'
+import { POSITIONS, POSITION_SHORT_LABELS } from '@/constants'
 
 defineProps<{
   modelValue: Position
@@ -9,23 +10,6 @@ const emit = defineEmits<{
   'update:modelValue': [value: Position]
 }>()
 
-const positions: Position[] = [
-  'top-left',
-  'top-center',
-  'top-right',
-  'bottom-left',
-  'bottom-center',
-  'bottom-right',
-]
-
-const positionLabels: Record<Position, string> = {
-  'top-left': 'TL',
-  'top-center': 'TC',
-  'top-right': 'TR',
-  'bottom-left': 'BL',
-  'bottom-center': 'BC',
-  'bottom-right': 'BR',
-}
 </script>
 
 <template>
@@ -33,7 +17,7 @@ const positionLabels: Record<Position, string> = {
     <legend class="field-legend">Position</legend>
     <div class="position-selector__grid">
       <button
-        v-for="pos in positions"
+        v-for="pos in POSITIONS"
         :key="pos"
         type="button"
         class="position-selector__cell"
@@ -41,7 +25,7 @@ const positionLabels: Record<Position, string> = {
         :aria-pressed="modelValue === pos"
         @click="emit('update:modelValue', pos)"
       >
-        {{ positionLabels[pos] }}
+        {{ POSITION_SHORT_LABELS[pos] }}
       </button>
     </div>
   </fieldset>

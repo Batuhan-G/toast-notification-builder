@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { nanoid } from 'nanoid'
-import { POSITIONS } from '@/types/notification'
+import { POSITIONS } from '@/constants'
 import type {
   ActiveNotification,
   NotificationConfig,

@@ -1,4 +1,4 @@
-import { ANIMATIONS, NOTIFICATION_TYPES, POSITIONS } from '@/types/notification'
+import { ANIMATIONS, NOTIFICATION_TYPES, POSITIONS } from '@/constants'
 import type { Preset, Theme } from '@/types/notification'
 
 export const STORAGE_KEYS = {
@@ -59,7 +59,7 @@ export function loadTheme(): Theme {
   try {
     const raw = localStorage.getItem(STORAGE_KEYS.THEME)
     if (raw === 'light' || raw === 'dark') return raw
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+    return 'light'
   } catch {
     return 'light'
   }

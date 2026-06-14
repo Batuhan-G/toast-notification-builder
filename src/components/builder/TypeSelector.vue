@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { NOTIFICATION_TYPES } from '@/types/notification'
 import type { NotificationType } from '@/types/notification'
+import { NOTIFICATION_TYPES, TYPE_LABELS } from '@/constants'
 import { TYPE_DEFAULTS } from '@/utils/defaults'
 import { TYPE_ICONS } from '@/components/icons/typeIcons'
 
@@ -12,12 +12,6 @@ const emit = defineEmits<{
   'update:modelValue': [value: NotificationType]
 }>()
 
-const typeLabels: Record<NotificationType, string> = {
-  success: 'Success',
-  error: 'Error',
-  warning: 'Warning',
-  info: 'Info',
-}
 </script>
 
 <template>
@@ -43,7 +37,7 @@ const typeLabels: Record<NotificationType, string> = {
         @click="emit('update:modelValue', type)"
       >
         <span class="type-selector__icon" v-html="TYPE_ICONS[type]" />
-        <span class="type-selector__label">{{ typeLabels[type] }}</span>
+        <span class="type-selector__label">{{ TYPE_LABELS[type] }}</span>
       </button>
     </div>
   </fieldset>

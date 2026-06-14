@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ANIMATIONS } from '@/types/notification'
 import type { AnimationStyle } from '@/types/notification'
+import { ANIMATIONS, ANIMATION_LABELS } from '@/constants'
 
 defineProps<{
   modelValue: AnimationStyle
@@ -10,11 +10,6 @@ const emit = defineEmits<{
   'update:modelValue': [value: AnimationStyle]
 }>()
 
-const animationLabels: Record<AnimationStyle, string> = {
-  fade: 'Fade',
-  slide: 'Slide',
-  bounce: 'Bounce',
-}
 </script>
 
 <template>
@@ -30,7 +25,7 @@ const animationLabels: Record<AnimationStyle, string> = {
         :aria-pressed="modelValue === anim"
         @click="emit('update:modelValue', anim)"
       >
-        {{ animationLabels[anim] }}
+        {{ ANIMATION_LABELS[anim] }}
       </button>
     </div>
   </fieldset>

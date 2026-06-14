@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useNotificationsStore } from '@/stores/notifications'
-import { POSITIONS } from '@/types/notification'
+import { POSITIONS } from '@/constants'
 import ToastItem from './ToastItem.vue'
 
 const notifications = useNotificationsStore()
