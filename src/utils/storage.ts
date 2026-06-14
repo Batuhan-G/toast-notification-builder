@@ -1,8 +1,4 @@
-import {
-  ANIMATIONS,
-  NOTIFICATION_TYPES,
-  POSITIONS,
-} from '@/types/notification'
+import { ANIMATIONS, NOTIFICATION_TYPES, POSITIONS } from '@/types/notification'
 import type { Preset, Theme } from '@/types/notification'
 
 export const STORAGE_KEYS = {
@@ -56,9 +52,7 @@ export function loadPresets(): Preset[] {
 export function savePresets(presets: Preset[]): void {
   try {
     localStorage.setItem(STORAGE_KEYS.PRESETS, JSON.stringify(presets))
-  } catch {
-    // Silently tolerate quota errors or unavailable storage
-  }
+  } catch {}
 }
 
 export function loadTheme(): Theme {
@@ -74,7 +68,5 @@ export function loadTheme(): Theme {
 export function saveTheme(theme: Theme): void {
   try {
     localStorage.setItem(STORAGE_KEYS.THEME, theme)
-  } catch {
-    // Silently tolerate quota errors or unavailable storage
-  }
+  } catch {}
 }

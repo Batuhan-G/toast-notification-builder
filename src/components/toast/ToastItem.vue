@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { NotificationConfig } from '@/types/notification'
-import { TYPE_ICONS } from './icons'
+import { TYPE_ICONS } from '@/components/icons/typeIcons'
 
 const props = defineProps<{
   config: Omit<NotificationConfig, 'id'>
@@ -28,12 +28,7 @@ const progressDuration = computed<string>(() => `${props.config.duration}ms`)
     :role="config.type === 'error' ? 'alert' : 'status'"
   >
     <div class="toast__icon" v-if="config.showIcon">
-      <img
-        v-if="config.customIcon"
-        :src="config.customIcon"
-        alt=""
-        class="toast__custom-icon"
-      />
+      <img v-if="config.customIcon" :src="config.customIcon" alt="" class="toast__custom-icon" />
       <span v-else v-html="iconSvg" />
     </div>
     <div class="toast__body">
@@ -47,7 +42,20 @@ const progressDuration = computed<string>(() => `${props.config.duration}ms`)
       aria-label="Close notification"
       @click="emit('close')"
     >
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+      </svg>
     </button>
     <div
       v-if="!isPersistent && !preview"
@@ -68,7 +76,7 @@ const progressDuration = computed<string>(() => `${props.config.duration}ms`)
   padding: $space-3 $space-4;
   border-radius: $radius-md;
   min-width: 300px;
-  max-width: 400px;
+  max-width: 350px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   overflow: hidden;
   pointer-events: auto;

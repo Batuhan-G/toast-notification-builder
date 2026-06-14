@@ -6,10 +6,10 @@ interface TypeDefault {
 }
 
 export const TYPE_DEFAULTS: Record<NotificationType, TypeDefault> = {
-  success: { backgroundColor: '#22c55e', textColor: '#ffffff' },
-  error: { backgroundColor: '#ef4444', textColor: '#ffffff' },
-  warning: { backgroundColor: '#f59e0b', textColor: '#1f2937' },
-  info: { backgroundColor: '#3b82f6', textColor: '#ffffff' },
+  success: { backgroundColor: '#22c55f', textColor: '#ffffff' },
+  error: { backgroundColor: '#ef2c2e', textColor: '#ffffff' },
+  warning: { backgroundColor: '#f7aa43', textColor: '#1f2937' },
+  info: { backgroundColor: '#2a7ff5', textColor: '#ffffff' },
 }
 
 export function createDefaultConfig(): Omit<NotificationConfig, 'id'> {

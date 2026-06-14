@@ -1,0 +1,8 @@
+@use 'variables' as *;
+@use 'typography' as *;
+
+.field-legend {
+  @include label;
+  color: var(--text-secondary);
+  margin-bottom: $space-2;
+}

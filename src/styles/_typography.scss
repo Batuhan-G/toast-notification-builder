@@ -1,0 +1,8 @@
+@use 'variables' as *;
+
+@mixin text-xs { font-size: $font-size-xs; font-weight: 400; }
+@mixin text-sm { font-size: $font-size-sm; font-weight: 400; }
+@mixin text-base { font-size: $font-size-base; font-weight: 400; }
+
+@mixin label { font-size: $font-size-sm; font-weight: 500; }
+@mixin label-xs { font-size: $font-size-xs; font-weight: 500; }
