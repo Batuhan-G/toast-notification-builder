@@ -58,7 +58,7 @@ Phased so each phase ends in a working, committable state. After every phase: `n
 
 ## Phase 5 — Presets + Code Export (~50 min)
 
-1. `PresetSaveForm`, `PresetList`, `PresetListItem` (Load/Delete, summary line, type color dot).
+1. `PresetList` (kayıtlı preset listesi + inline save satırı) + `PresetListItem` (Load/Delete, summary line, type color dot). Save satırı ayrı bileşen değil, `PresetList` içinde yaşıyor.
 2. `utils/codeExport.ts` + `CodeExport.vue` with Copy to Clipboard (clipboard API + "Copied!" feedback state, fallback message on failure). Code export must include `customIcon` (the data URL string) in the snippet — it's just another field; no truncation.
 
 ✅ Exit: presets survive reload (including custom icons); export copies correctly. Commit.

@@ -72,34 +72,34 @@ function onPersistentChange(event: Event): void {
 
 .duration-control__slider {
   flex: 1;
-  height: 6px;
+  height: $slider-track-height;
   appearance: none;
   -webkit-appearance: none;
   background: var(--border-default);
-  border-radius: 3px;
+  border-radius: $radius-xs;
   outline: none;
   cursor: pointer;
 
   &::-webkit-slider-thumb {
     appearance: none;
     -webkit-appearance: none;
-    width: 18px;
-    height: 18px;
+    width: $slider-thumb-size;
+    height: $slider-thumb-size;
     border-radius: 50%;
     background: var(--accent-primary);
     border: none;
     cursor: pointer;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-control);
   }
 
   &::-moz-range-thumb {
-    width: 18px;
-    height: 18px;
+    width: $slider-thumb-size;
+    height: $slider-thumb-size;
     border-radius: 50%;
     background: var(--accent-primary);
     border: none;
     cursor: pointer;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-control);
   }
 
   &:disabled {
@@ -119,7 +119,7 @@ function onPersistentChange(event: Event): void {
 .duration-control__value {
   @include label;
   color: var(--text-secondary);
-  min-width: 28px;
+  min-width: $space-7;
   text-align: right;
   flex-shrink: 0;
 }

@@ -6,12 +6,14 @@ import ClipboardIcon from '@/components/icons/ClipboardIcon.vue'
 
 const builder = useBuilderStore()
 const copied = ref(false)
+const copyFailed = ref(false)
 let copyTimer: number | undefined
 
 const highlightedHtml = computed(() => generateHighlightedHtml(builder.config))
 const plainSnippet = computed(() => generateCodeSnippet(builder.config))
 
 async function copyToClipboard(): Promise<void> {
+  copyFailed.value = false
   try {
     await navigator.clipboard.writeText(plainSnippet.value)
     copied.value = true
@@ -21,6 +23,7 @@ async function copyToClipboard(): Promise<void> {
     }, 2000)
   } catch {
     copied.value = false
+    copyFailed.value = true
   }
 }
 </script>
@@ -40,6 +43,15 @@ async function copyToClipboard(): Promise<void> {
       <ClipboardIcon class="code-export__copy-icon" />
       {{ copied ? 'Copied!' : 'Copy to Clipboard' }}
     </button>
+
+    <p v-if="copyFailed" class="code-export__error" role="alert">
+      Copy failed — select the code and copy manually.
+    </p>
+
+    <p v-if="builder.config.customIcon !== null" class="code-export__note">
+      Custom icon data URL is shortened above for preview; the copied code
+      includes it in full.
+    </p>
   </div>
 </template>
 
@@ -59,7 +71,7 @@ async function copyToClipboard(): Promise<void> {
 }
 
 .code-export__block {
-  background-color: #0d1117;
+  background-color: var(--bg-code);
   border-radius: $radius-md;
   padding: $space-4;
   font-family: $font-family-mono;
@@ -69,10 +81,9 @@ async function copyToClipboard(): Promise<void> {
   margin: 0;
   white-space: pre-wrap;
   word-break: break-all;
-  color: #e6edf3;
+  color: var(--text-on-code);
 
   :deep(.code-keyword) { color: #c084fc; }
-  :deep(.code-var)     { color: #7dd3fc; }
   :deep(.code-key)     { color: #7dd3fc; }
   :deep(.code-string)  { color: #86efac; }
   :deep(.code-number)  { color: #fb923c; }
@@ -88,8 +99,8 @@ async function copyToClipboard(): Promise<void> {
   margin-top: $space-3;
   padding: $space-2 $space-4;
   background-color: var(--bg-btn-secondary);
-  color: #111827;
-  border: 1px solid #d1d5db;
+  color: var(--text-primary);
+  border: 1px solid var(--border-default);
   border-radius: $radius-md;
   font-size: $font-size-sm;
   font-weight: 500;
@@ -111,5 +122,17 @@ async function copyToClipboard(): Promise<void> {
 
 .code-export__copy-icon {
   flex-shrink: 0;
+}
+
+.code-export__error {
+  margin: $space-2 0 0;
+  font-size: $font-size-xs;
+  color: var(--color-danger);
+}
+
+.code-export__note {
+  margin: $space-2 0 0;
+  font-size: $font-size-xs;
+  color: var(--text-muted);
 }
 </style>

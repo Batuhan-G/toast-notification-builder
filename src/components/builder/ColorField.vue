@@ -82,12 +82,12 @@ function onTextInput(event: Event): void {
 
   &::-webkit-color-swatch {
     border: none;
-    border-radius: 3px;
+    border-radius: $radius-xs;
   }
 
   &::-moz-color-swatch {
     border: none;
-    border-radius: 3px;
+    border-radius: $radius-xs;
   }
 }
 

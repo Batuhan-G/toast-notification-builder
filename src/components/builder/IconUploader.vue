@@ -95,7 +95,7 @@ function clearIcon(): void {
   object-fit: contain;
   border: 1px solid var(--border-default);
   border-radius: $radius-sm;
-  padding: 4px;
+  padding: $space-1;
   background-color: var(--bg-surface);
 }
 

@@ -46,14 +46,11 @@ toast-notification-builder/
     │   │   ├── ToggleOptions.vue  # icon / close button checkboxes
     │   │   ├── AnimationSelector.vue
     │   │   └── IconUploader.vue   # file input + preview + clear button (uses iconUpload.ts)
-    │   ├── preview/
-    │   │   └── PreviewPane.vue    # static ToastItem + Show Notification button
-    │   ├── presets/
-    │   │   ├── PresetList.vue
-    │   │   ├── PresetListItem.vue
-    │   │   └── PresetSaveForm.vue
-    │   └── export/
-    │       └── CodeExport.vue
+    │   └── preview/
+    │       ├── PreviewPane.vue     # static ToastItem + Show Notification + presets + export
+    │       ├── PresetList.vue      # kayıtlı preset listesi + inline save satırı
+    │       ├── PresetListItem.vue  # tek preset satırı: load/delete, type-renk noktası
+    │       └── CodeExport.vue      # config → highlighted snippet + copy-to-clipboard
     ├── styles/
     │   ├── _variables.scss        # non-theme tokens: radii, spacing, font sizes, z-index
     │   ├── _themes.scss           # CSS custom properties per [data-theme]

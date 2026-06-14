@@ -1,20 +1,47 @@
 import type { NotificationConfig } from '@/types/notification'
 
-export function generateCodeSnippet(config: Omit<NotificationConfig, 'id'>): string {
-  const icon =
-    config.customIcon === null ? 'null' : JSON.stringify(config.customIcon)
-  return (
-    `const notification = { ` +
-    `type: '${config.type}', ` +
-    `title: ${JSON.stringify(config.title)}, ` +
-    `message: ${JSON.stringify(config.message)}, ` +
-    `duration: ${config.duration}, ` +
-    `position: '${config.position}', ` +
-    `showIcon: ${config.showIcon}, ` +
-    `showCloseButton: ${config.showCloseButton}, ` +
-    `animation: '${config.animation}', ` +
-    `customIcon: ${icon} };`
-  )
+type Config = Omit<NotificationConfig, 'id'>
+
+type Field =
+  | { key: string; kind: 'literal'; value: string }
+  | { key: string; kind: 'text'; value: string }
+  | { key: string; kind: 'number'; value: number }
+  | { key: string; kind: 'boolean'; value: boolean }
+  | { key: string; kind: 'null' }
+
+function fields(config: Config): Field[] {
+  return [
+    { key: 'type', kind: 'literal', value: config.type },
+    { key: 'title', kind: 'text', value: config.title },
+    { key: 'message', kind: 'text', value: config.message },
+    { key: 'duration', kind: 'number', value: config.duration },
+    { key: 'position', kind: 'literal', value: config.position },
+    { key: 'showIcon', kind: 'boolean', value: config.showIcon },
+    { key: 'showCloseButton', kind: 'boolean', value: config.showCloseButton },
+    { key: 'animation', kind: 'literal', value: config.animation },
+    config.customIcon === null
+      ? { key: 'customIcon', kind: 'null' }
+      : { key: 'customIcon', kind: 'text', value: config.customIcon },
+  ]
+}
+
+export function generateCodeSnippet(config: Config): string {
+  const body = fields(config)
+    .map((f) => {
+      switch (f.kind) {
+        case 'literal':
+          return `${f.key}: '${f.value}'`
+        case 'text':
+          return `${f.key}: ${JSON.stringify(f.value)}`
+        case 'number':
+        case 'boolean':
+          return `${f.key}: ${f.value}`
+        case 'null':
+          return `${f.key}: null`
+      }
+    })
+    .join(', ')
+  return `const notification = { ${body} };`
 }
 
 function escapeHtml(str: string): string {
@@ -25,54 +52,34 @@ function escapeHtml(str: string): string {
     .replace(/"/g, '&quot;')
 }
 
-function p(char: string): string {
-  return `<span class="code-punct">${char}</span>`
-}
+const wrapPunctuation = (c: string): string => `<span class="code-punct">${c}</span>`
+const wrapKey = (key: string): string => `<span class="code-key">${key}</span>`
+const wrapString = (v: string): string => `<span class="code-string">'${escapeHtml(v)}'</span>`
+const wrapNumber = (v: number): string => `<span class="code-number">${v}</span>`
+const wrapBoolean = (v: boolean): string => `<span class="code-boolean">${v}</span>`
+const wrapNull = (): string => `<span class="code-null">null</span>`
 
-function k(key: string): string {
-  return `<span class="code-key">${key}</span>`
-}
-
-function s(value: string): string {
-  return `<span class="code-string">'${escapeHtml(value)}'</span>`
-}
-
-function n(value: number): string {
-  return `<span class="code-number">${value}</span>`
-}
-
-function b(value: boolean): string {
-  return `<span class="code-boolean">${value}</span>`
-}
-
-function nil(): string {
-  return `<span class="code-null">null</span>`
-}
-
-export function generateHighlightedHtml(
-  config: Omit<NotificationConfig, 'id'>,
-): string {
-  const icon =
-    config.customIcon === null
-      ? nil()
-      : s(config.customIcon.slice(0, 40) + '…')
-
-  const parts = [
-    `${k('type')}${p(':')} ${s(config.type)}`,
-    `${k('title')}${p(':')} ${s(config.title)}`,
-    `${k('message')}${p(':')} ${s(config.message)}`,
-    `${k('duration')}${p(':')} ${n(config.duration)}`,
-    `${k('position')}${p(':')} ${s(config.position)}`,
-    `${k('showIcon')}${p(':')} ${b(config.showIcon)}`,
-    `${k('showCloseButton')}${p(':')} ${b(config.showCloseButton)}`,
-    `${k('animation')}${p(':')} ${s(config.animation)}`,
-    `${k('customIcon')}${p(':')} ${icon}`,
-  ]
+export function generateHighlightedHtml(config: Config): string {
+  const parts = fields(config).map((f) => {
+    const label = `${wrapKey(f.key)}${wrapPunctuation(':')} `
+    switch (f.kind) {
+      case 'literal':
+        return label + wrapString(f.value)
+      case 'text':
+        return label + wrapString(f.key === 'customIcon' ? f.value.slice(0, 40) + '…' : f.value)
+      case 'number':
+        return label + wrapNumber(f.value)
+      case 'boolean':
+        return label + wrapBoolean(f.value)
+      case 'null':
+        return label + wrapNull()
+    }
+  })
 
   return (
     `<span class="code-keyword">const</span> ` +
-    `${k('notification')} ${p('=')} ${p('{')} ` +
-    parts.join(`${p(',')} `) +
-    ` ${p('};')}`
+    `${wrapKey('notification')} ${wrapPunctuation('=')} ${wrapPunctuation('{')} ` +
+    parts.join(`${wrapPunctuation(',')} `) +
+    ` ${wrapPunctuation('};')}`
   )
 }

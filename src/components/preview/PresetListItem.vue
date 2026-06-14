@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Preset } from '@/types/notification'
-import { POSITION_LABELS, TYPE_COLORS } from '@/constants'
+import { POSITION_LABELS } from '@/constants'
 
 const props = defineProps<{ preset: Preset }>()
 
@@ -19,7 +19,7 @@ function durationLabel(duration: number): string {
   <li class="preset-item">
     <span
       class="preset-item__dot"
-      :style="{ backgroundColor: TYPE_COLORS[props.preset.config.type] }"
+      :style="{ backgroundColor: props.preset.config.backgroundColor }"
       aria-hidden="true"
     />
     <div class="preset-item__body">
@@ -106,11 +106,11 @@ function durationLabel(duration: number): string {
 }
 
 .preset-item__btn {
-  padding: 3px $space-2;
-  background-color: #ffffff;
-  color: #111827;
+  padding: $space-1 $space-2;
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
   border: 1px solid var(--border-default);
-  border-radius: 4px;
+  border-radius: $radius-xs;
   font-size: $font-size-xs;
   font-weight: 500;
   cursor: pointer;

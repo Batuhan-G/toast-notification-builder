@@ -75,9 +75,9 @@ const progressDuration = computed<string>(() => `${props.config.duration}ms`)
   gap: $space-3;
   padding: $space-3 $space-4;
   border-radius: $radius-md;
-  min-width: 300px;
-  max-width: 350px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: $toast-min-width;
+  max-width: $toast-max-width;
+  box-shadow: var(--shadow-elevated);
   overflow: hidden;
   pointer-events: auto;
 }
