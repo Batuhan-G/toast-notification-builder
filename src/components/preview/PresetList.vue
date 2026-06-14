@@ -116,8 +116,7 @@ function save(): void {
   font-family: $font-family;
 
   &:focus {
-    outline: 2px solid var(--border-focus);
-    outline-offset: 1px;
+    outline: none;
     border-color: var(--border-focus);
   }
 

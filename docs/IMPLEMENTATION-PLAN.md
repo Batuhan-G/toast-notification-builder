@@ -59,7 +59,7 @@ Phased so each phase ends in a working, committable state. After every phase: `n
 ## Phase 5 — Presets + Code Export (~50 min)
 
 1. `PresetList` (kayıtlı preset listesi + inline save satırı) + `PresetListItem` (Load/Delete, summary line, type color dot). Save satırı ayrı bileşen değil, `PresetList` içinde yaşıyor.
-2. `utils/codeExport.ts` + `CodeExport.vue` with Copy to Clipboard (clipboard API + "Copied!" feedback state, fallback message on failure). Code export must include `customIcon` (the data URL string) in the snippet — it's just another field; no truncation.
+2. `utils/codeExport.ts` + `CodeExport.vue` with Copy to Clipboard (clipboard API + "Copied!" feedback state, fallback message on failure). Code export excludes `customIcon` and color fields — it represents behavioral/structural config only, not visual styling.
 
 ✅ Exit: presets survive reload (including custom icons); export copies correctly. Commit.
 
@@ -68,7 +68,7 @@ Phased so each phase ends in a working, committable state. After every phase: `n
 Per `docs/TESTING.md`. Target suite (≥8 tests):
 1. `notifications` store: `show` adds toast with id/createdAt; auto-dismiss fires after duration (fake timers); `duration: 0` never auto-dismisses; manual `dismiss` clears timer.
 2. `presets` store: save → persists to (mocked) localStorage; corrupt JSON → empty list; delete removes.
-3. `codeExport`: snapshot/equality of generated snippet; persistent config renders `duration: 0`; custom icon round-trips through the snippet.
+3. `codeExport`: snapshot/equality of generated snippet; persistent config renders `duration: 0`; snippet excludes `customIcon` even when set.
 4. `ToastItem`: renders title/message; hides icon when `showIcon: false`; emits `close` on button click; close button absent when `showCloseButton: false`; renders `<img>` when `customIcon` set, SVG otherwise.
 5. `builder` store: type change applies default colors; manual color change sets `colorsCustomized` and survives type change.
 6. `iconUpload`: validation rejects non-image MIME; rejects >100 KB; accepts valid file.

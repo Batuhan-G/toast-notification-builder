@@ -7,7 +7,6 @@ type Field =
   | { key: string; kind: 'text'; value: string }
   | { key: string; kind: 'number'; value: number }
   | { key: string; kind: 'boolean'; value: boolean }
-  | { key: string; kind: 'null' }
 
 function fields(config: Config): Field[] {
   return [
@@ -19,9 +18,6 @@ function fields(config: Config): Field[] {
     { key: 'showIcon', kind: 'boolean', value: config.showIcon },
     { key: 'showCloseButton', kind: 'boolean', value: config.showCloseButton },
     { key: 'animation', kind: 'literal', value: config.animation },
-    config.customIcon === null
-      ? { key: 'customIcon', kind: 'null' }
-      : { key: 'customIcon', kind: 'text', value: config.customIcon },
   ]
 }
 
@@ -36,8 +32,6 @@ export function generateCodeSnippet(config: Config): string {
         case 'number':
         case 'boolean':
           return `${f.key}: ${f.value}`
-        case 'null':
-          return `${f.key}: null`
       }
     })
     .join(', ')
@@ -57,7 +51,6 @@ const wrapKey = (key: string): string => `<span class="code-key">${key}</span>`
 const wrapString = (v: string): string => `<span class="code-string">'${escapeHtml(v)}'</span>`
 const wrapNumber = (v: number): string => `<span class="code-number">${v}</span>`
 const wrapBoolean = (v: boolean): string => `<span class="code-boolean">${v}</span>`
-const wrapNull = (): string => `<span class="code-null">null</span>`
 
 export function generateHighlightedHtml(config: Config): string {
   const parts = fields(config).map((f) => {
@@ -66,13 +59,11 @@ export function generateHighlightedHtml(config: Config): string {
       case 'literal':
         return label + wrapString(f.value)
       case 'text':
-        return label + wrapString(f.key === 'customIcon' ? f.value.slice(0, 40) + '…' : f.value)
+        return label + wrapString(f.value)
       case 'number':
         return label + wrapNumber(f.value)
       case 'boolean':
         return label + wrapBoolean(f.value)
-      case 'null':
-        return label + wrapNull()
     }
   })
 

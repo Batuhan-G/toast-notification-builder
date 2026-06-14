@@ -48,10 +48,6 @@ async function copyToClipboard(): Promise<void> {
       Copy failed — select the code and copy manually.
     </p>
 
-    <p v-if="builder.config.customIcon !== null" class="code-export__note">
-      Custom icon data URL is shortened above for preview; the copied code
-      includes it in full.
-    </p>
   </div>
 </template>
 
@@ -88,7 +84,6 @@ async function copyToClipboard(): Promise<void> {
   :deep(.code-string)  { color: #86efac; }
   :deep(.code-number)  { color: #fb923c; }
   :deep(.code-boolean) { color: #c084fc; }
-  :deep(.code-null)    { color: #94a3b8; }
   :deep(.code-punct)   { color: #e6edf3; }
 }
 
@@ -130,9 +125,4 @@ async function copyToClipboard(): Promise<void> {
   color: var(--color-danger);
 }
 
-.code-export__note {
-  margin: $space-2 0 0;
-  font-size: $font-size-xs;
-  color: var(--text-muted);
-}
 </style>

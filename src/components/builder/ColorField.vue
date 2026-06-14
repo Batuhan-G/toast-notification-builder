@@ -40,7 +40,7 @@ function onTextInput(event: Event): void {
         class="color-field__hex"
         :value="modelValue"
         maxlength="7"
-        @change="onTextInput"
+        @input="onTextInput"
       />
     </div>
   </div>

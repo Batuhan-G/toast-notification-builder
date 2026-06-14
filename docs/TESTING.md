@@ -79,6 +79,7 @@ Mock localStorage (`jest.spyOn(Storage.prototype, 'getItem'/'setItem')` or a man
 ```ts
 // generateCodeSnippet(config) === expected string (exact match)
 // persistent config renders duration: 0
+// snippet does NOT contain customIcon key even when config.customIcon is set
 ```
 
 ### 4. `components/ToastItem.spec.ts`

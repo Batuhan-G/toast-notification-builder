@@ -16,11 +16,10 @@ export const useBuilderStore = defineStore('builder', () => {
 
   function setType(type: NotificationType): void {
     config.value.type = type
-    if (!colorsCustomized.value) {
-      const defaults = TYPE_DEFAULTS[type]
-      config.value.backgroundColor = defaults.backgroundColor
-      config.value.textColor = defaults.textColor
-    }
+    const defaults = TYPE_DEFAULTS[type]
+    config.value.backgroundColor = defaults.backgroundColor
+    config.value.textColor = defaults.textColor
+    colorsCustomized.value = false
   }
 
   function setTitle(title: string): void {
