@@ -24,7 +24,7 @@ function showNotification(): void {
       </div>
     </div>
 
-    <button class="preview-pane__show-btn" @click="showNotification">
+    <button type="button" class="preview-pane__show-btn" @click="showNotification">
       Show Notification
     </button>
   </div>

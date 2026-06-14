@@ -35,8 +35,10 @@ const positionLabels: Record<Position, string> = {
       <button
         v-for="pos in positions"
         :key="pos"
+        type="button"
         class="position-selector__cell"
         :class="{ 'position-selector__cell--active': modelValue === pos }"
+        :aria-pressed="modelValue === pos"
         @click="emit('update:modelValue', pos)"
       >
         {{ positionLabels[pos] }}

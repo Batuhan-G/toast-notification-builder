@@ -27,8 +27,10 @@ const typeLabels: Record<NotificationType, string> = {
       <button
         v-for="type in NOTIFICATION_TYPES"
         :key="type"
+        type="button"
         class="type-selector__card"
         :class="{ 'type-selector__card--active': modelValue === type }"
+        :aria-pressed="modelValue === type"
         :style="
           modelValue === type
             ? {

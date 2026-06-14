@@ -30,10 +30,13 @@ toast-notification-builder/
     │   └── theme.ts               # light/dark + persistence + system fallback
     ├── components/
     │   ├── ThemeToggle.vue        # header toggle, aria-pressed
+    │   ├── icons/
+    │   │   ├── typeIcons.ts        # TYPE_ICONS: Record<NotificationType, string> (inline SVG)
+    │   │   ├── SunIcon.vue
+    │   │   └── MoonIcon.vue
     │   ├── toast/
-    │   │   ├── ToastItem.vue      # single toast (used by preview AND real toasts)
-    │   │   ├── ToastContainer.vue # Teleport + per-position stacks + TransitionGroup
-    │   │   └── icons.ts           # TYPE_ICONS: Record<NotificationType, string> (inline SVG)
+    │   │   ├── ToastItem.vue       # single toast (used by preview AND real toasts)
+    │   │   └── ToastContainer.vue  # Teleport + per-position stacks + TransitionGroup
     │   ├── builder/
     │   │   ├── ConfigPanel.vue    # composes the controls below
     │   │   ├── TypeSelector.vue

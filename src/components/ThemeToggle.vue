@@ -11,6 +11,7 @@ const isDark = computed<boolean>(() => themeStore.theme === 'dark')
 
 <template>
   <button
+    type="button"
     class="theme-toggle"
     :aria-pressed="isDark"
     aria-label="Toggle dark mode"

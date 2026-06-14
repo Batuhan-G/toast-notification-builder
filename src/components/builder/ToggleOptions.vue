@@ -5,8 +5,8 @@ defineProps<{
 }>()
 
 const emit = defineEmits<{
-  'update:showIcon': [value: boolean]
-  'update:showCloseButton': [value: boolean]
+  toggleIcon: []
+  toggleCloseButton: []
 }>()
 </script>
 
@@ -18,7 +18,7 @@ const emit = defineEmits<{
         <input
           type="checkbox"
           :checked="showIcon"
-          @change="emit('update:showIcon', !showIcon)"
+          @change="emit('toggleIcon')"
         />
         <span>Show Icon</span>
       </label>
@@ -26,7 +26,7 @@ const emit = defineEmits<{
         <input
           type="checkbox"
           :checked="showCloseButton"
-          @change="emit('update:showCloseButton', !showCloseButton)"
+          @change="emit('toggleCloseButton')"
         />
         <span>Show Close Button</span>
       </label>

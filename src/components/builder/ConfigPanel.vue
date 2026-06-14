@@ -56,7 +56,7 @@ function onAnimationChange(animation: AnimationStyle): void {
           placeholder="Notification message"
           rows="3"
           :value="builder.config.message"
-          @input="builder.setMessage(($event.target as HTMLInputElement).value)"
+          @input="builder.setMessage(($event.target as HTMLTextAreaElement).value)"
         />
       </div>
 
@@ -99,8 +99,8 @@ function onAnimationChange(animation: AnimationStyle): void {
         <ToggleOptions
           :show-icon="builder.config.showIcon"
           :show-close-button="builder.config.showCloseButton"
-          @update:show-icon="builder.toggleIcon()"
-          @update:show-close-button="builder.toggleCloseButton()"
+          @toggle-icon="builder.toggleIcon()"
+          @toggle-close-button="builder.toggleCloseButton()"
         />
       </div>
 

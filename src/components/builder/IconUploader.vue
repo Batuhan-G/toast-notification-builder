@@ -50,6 +50,7 @@ function clearIcon(): void {
       <div v-if="customIcon" class="icon-uploader__preview">
         <img :src="customIcon" alt="Custom icon preview" class="icon-uploader__thumb" />
         <button
+          type="button"
           class="icon-uploader__clear"
           aria-label="Remove custom icon"
           @click="clearIcon"
@@ -59,7 +60,6 @@ function clearIcon(): void {
       </div>
       <label class="icon-uploader__button">
         <input
-          ref="fileInput"
           type="file"
           accept="image/*"
           class="icon-uploader__input"
@@ -158,7 +158,7 @@ function clearIcon(): void {
 .icon-uploader__error {
   margin-top: $space-1;
   font-size: $font-size-sm;
-  color: #ef4444;
+  color: var(--color-danger);
 }
 
 .icon-uploader__hint {

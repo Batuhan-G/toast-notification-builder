@@ -24,8 +24,10 @@ const animationLabels: Record<AnimationStyle, string> = {
       <button
         v-for="anim in ANIMATIONS"
         :key="anim"
+        type="button"
         class="animation-selector__option"
         :class="{ 'animation-selector__option--active': modelValue === anim }"
+        :aria-pressed="modelValue === anim"
         @click="emit('update:modelValue', anim)"
       >
         {{ animationLabels[anim] }}
