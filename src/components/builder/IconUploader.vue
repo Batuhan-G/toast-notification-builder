@@ -158,7 +158,7 @@ function clearIcon(): void {
 .icon-uploader__error {
   margin-top: $space-1;
   font-size: $font-size-sm;
-  color: var(--type-error);
+  color: var(--color-danger);
 }
 
 .icon-uploader__hint {

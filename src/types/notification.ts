@@ -32,4 +32,9 @@ export interface ActiveNotification extends NotificationConfig {
   createdAt: number
 }
 
+export interface TypeDefault {
+  backgroundColor: string
+  textColor: string
+}
+
 export type Theme = 'light' | 'dark'

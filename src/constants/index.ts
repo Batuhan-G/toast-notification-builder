@@ -1,6 +1,7 @@
 export {
   NOTIFICATION_TYPES,
   TYPE_LABELS,
+  TYPE_DEFAULTS,
   type NotificationType,
 } from './type'
 

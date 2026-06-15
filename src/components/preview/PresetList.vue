@@ -154,7 +154,7 @@ function save(): void {
 .preset-list__error {
   margin: $space-2 0 0;
   font-size: $font-size-xs;
-  color: var(--type-error);
+  color: var(--color-danger);
 }
 
 .sr-only {

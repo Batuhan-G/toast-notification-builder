@@ -79,12 +79,12 @@ async function copyToClipboard(): Promise<void> {
   word-break: break-all;
   color: var(--text-on-code);
 
-  :deep(.code-keyword) { color: #c084fc; }
-  :deep(.code-key)     { color: #7dd3fc; }
-  :deep(.code-string)  { color: #86efac; }
-  :deep(.code-number)  { color: #fb923c; }
-  :deep(.code-boolean) { color: #c084fc; }
-  :deep(.code-punct)   { color: #e6edf3; }
+  :deep(.code-keyword) { color: var(--code-keyword); }
+  :deep(.code-key)     { color: var(--code-key); }
+  :deep(.code-string)  { color: var(--code-string); }
+  :deep(.code-number)  { color: var(--code-number); }
+  :deep(.code-boolean) { color: var(--code-boolean); }
+  :deep(.code-punct)   { color: var(--code-punct); }
 }
 
 .code-export__copy-btn {
@@ -122,7 +122,7 @@ async function copyToClipboard(): Promise<void> {
 .code-export__error {
   margin: $space-2 0 0;
   font-size: $font-size-xs;
-  color: var(--type-error);
+  color: var(--color-danger);
 }
 
 </style>

@@ -7,7 +7,8 @@ import type {
   Position,
   Preset,
 } from '@/types/notification'
-import { createDefaultConfig, TYPE_DEFAULTS } from '@/utils/defaults'
+import { TYPE_DEFAULTS } from '@/constants'
+import { createDefaultConfig } from '@/utils/defaults'
 
 export const useBuilderStore = defineStore('builder', () => {
   const config = ref<Omit<NotificationConfig, 'id'>>(createDefaultConfig())

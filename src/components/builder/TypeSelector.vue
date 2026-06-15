@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { NotificationType } from '@/types/notification'
-import { NOTIFICATION_TYPES, TYPE_LABELS } from '@/constants'
+import { NOTIFICATION_TYPES, TYPE_LABELS, TYPE_DEFAULTS } from '@/constants'
 import { TYPE_ICONS } from '@/components/icons/typeIcons'
 
 defineProps<{
@@ -21,11 +21,17 @@ const emit = defineEmits<{
         :key="type"
         type="button"
         class="type-selector__card"
-        :class="[
-          `type-selector__card--${type}`,
-          { 'type-selector__card--active': modelValue === type },
-        ]"
+        :class="{ 'type-selector__card--active': modelValue === type }"
         :aria-pressed="modelValue === type"
+        :style="
+          modelValue === type
+            ? {
+                backgroundColor: TYPE_DEFAULTS[type].backgroundColor,
+                color: TYPE_DEFAULTS[type].textColor,
+                borderColor: TYPE_DEFAULTS[type].backgroundColor,
+              }
+            : { color: TYPE_DEFAULTS[type].backgroundColor }
+        "
         @click="emit('update:modelValue', type)"
       >
         <span class="type-selector__icon" v-html="TYPE_ICONS[type]" />
@@ -81,49 +87,14 @@ const emit = defineEmits<{
   justify-content: center;
 }
 
-.type-selector__card--success .type-selector__icon {
-  color: var(--type-success);
-}
-.type-selector__card--error .type-selector__icon {
-  color: var(--type-error);
-}
-.type-selector__card--warning .type-selector__icon {
-  color: var(--type-warning);
-}
-.type-selector__card--info .type-selector__icon {
-  color: var(--type-info);
-}
-
 .type-selector__label {
   font-size: $font-size-xs;
   font-weight: 500;
   color: var(--text-secondary);
 }
 
-.type-selector__card--active {
-  .type-selector__icon,
-  .type-selector__label {
-    color: var(--text-on-accent);
-  }
-
-  &.type-selector__card--success {
-    background-color: var(--type-success-active);
-    border-color: var(--type-success-active);
-  }
-
-  &.type-selector__card--error {
-    background-color: var(--type-error-active);
-    border-color: var(--type-error-active);
-  }
-
-  &.type-selector__card--warning {
-    background-color: var(--type-warning-active);
-    border-color: var(--type-warning-active);
-  }
-
-  &.type-selector__card--info {
-    background-color: var(--type-info-active);
-    border-color: var(--type-info-active);
-  }
+.type-selector__card--active .type-selector__icon,
+.type-selector__card--active .type-selector__label {
+  color: inherit;
 }
 </style>
