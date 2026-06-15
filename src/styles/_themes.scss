@@ -8,7 +8,7 @@
 
   --text-primary: #111827;
   --text-secondary: #4b5563;
-  --text-muted: #9ca3af;
+  --text-muted: #6b7280;
   --text-on-code: #e5e7eb;
   --text-on-accent: #ffffff;
 
@@ -26,7 +26,17 @@
   --shadow-control: 0 1px 3px rgba(0, 0, 0, 0.2);
   --shadow-elevated: 0 4px 12px rgba(0, 0, 0, 0.08);
 
-  --color-danger: #ef4444;
+  --type-success: #15803d;
+  --type-error: #dc2626;
+  --type-warning: #b45309;
+  --type-info: #2563eb;
+
+  // Active card backgrounds — NOT overridden in dark theme so they stay
+  // dark enough for white text, even though dark theme lightens --type-*.
+  --type-success-active: #15803d;
+  --type-error-active: #dc2626;
+  --type-warning-active: #b45309;
+  --type-info-active: #2563eb;
 }
 
 :root[data-theme='dark'] {
@@ -38,7 +48,7 @@
 
   --text-primary: #f1f5f9;
   --text-secondary: #cbd5e1;
-  --text-muted: #64748b;
+  --text-muted: #94a3b8;
   --text-on-code: #e5e7eb;
   --text-on-accent: #ffffff;
 
@@ -56,5 +66,8 @@
   --shadow-control: 0 1px 3px rgba(0, 0, 0, 0.4);
   --shadow-elevated: 0 4px 12px rgba(0, 0, 0, 0.5);
 
-  --color-danger: #f87171;
+  --type-success: #4ade80;
+  --type-error: #f87171;
+  --type-warning: #fbbf24;
+  --type-info: #60a5fa;
 }

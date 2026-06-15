@@ -62,7 +62,6 @@ function onPersistentChange(event: Event): void {
 
 <style scoped lang="scss">
 @use '@/styles/variables' as *;
-@use '@/styles/typography' as *;
 
 .duration-control__slider-row {
   display: flex;
@@ -102,6 +101,11 @@ function onPersistentChange(event: Event): void {
     box-shadow: var(--shadow-control);
   }
 
+  &:focus-visible {
+    outline: 2px solid var(--border-focus);
+    outline-offset: 2px;
+  }
+
   &:disabled {
     opacity: 0.4;
     cursor: not-allowed;
@@ -117,7 +121,8 @@ function onPersistentChange(event: Event): void {
 }
 
 .duration-control__value {
-  @include label;
+  font-size: $font-size-sm;
+  font-weight: 500;
   color: var(--text-secondary);
   min-width: $space-7;
   text-align: right;

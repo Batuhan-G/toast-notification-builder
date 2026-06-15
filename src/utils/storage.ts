@@ -1,7 +1,7 @@
 import { ANIMATIONS, NOTIFICATION_TYPES, POSITIONS } from '@/constants'
 import type { Preset, Theme } from '@/types/notification'
 
-export const STORAGE_KEYS = {
+const STORAGE_KEYS = {
   PRESETS: 'toast-builder:presets',
   THEME: 'toast-builder:theme',
 } as const

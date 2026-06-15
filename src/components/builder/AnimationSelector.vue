@@ -33,7 +33,6 @@ const emit = defineEmits<{
 
 <style scoped lang="scss">
 @use '@/styles/variables' as *;
-@use '@/styles/typography' as *;
 
 .animation-selector {
   border: none;
@@ -53,7 +52,8 @@ const emit = defineEmits<{
   border-radius: $radius-md;
   background-color: var(--bg-surface);
   color: var(--text-secondary);
-  @include label;
+  font-size: $font-size-sm;
+  font-weight: 500;
   cursor: pointer;
   transition:
     background-color 150ms ease,

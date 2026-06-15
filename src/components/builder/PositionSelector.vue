@@ -33,7 +33,6 @@ const emit = defineEmits<{
 
 <style scoped lang="scss">
 @use '@/styles/variables' as *;
-@use '@/styles/typography' as *;
 
 .position-selector {
   border: none;
@@ -56,7 +55,7 @@ const emit = defineEmits<{
   border-radius: $radius-sm;
   background-color: var(--bg-surface);
   color: var(--text-secondary);
-  @include text-xs;
+  font-size: $font-size-xs;
   cursor: pointer;
   transition:
     border-color 150ms ease,

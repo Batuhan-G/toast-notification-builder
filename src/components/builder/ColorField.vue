@@ -48,11 +48,11 @@ function onTextInput(event: Event): void {
 
 <style scoped lang="scss">
 @use '@/styles/variables' as *;
-@use '@/styles/typography' as *;
 
 .color-field__label {
   display: block;
-  @include label;
+  font-size: $font-size-sm;
+  font-weight: 500;
   color: var(--text-secondary);
   margin-bottom: $space-1;
 }
@@ -102,7 +102,7 @@ function onTextInput(event: Event): void {
   font-size: $font-size-sm;
   font-family: $font-family-mono;
 
-  &:focus {
+  &:focus-visible {
     outline: none;
     border-color: var(--border-focus);
   }

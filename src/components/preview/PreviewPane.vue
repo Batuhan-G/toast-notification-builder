@@ -30,11 +30,7 @@ function showNotification(): void {
       Show Notification
     </button>
 
-    <div class="preview-pane__divider" />
-
     <PresetList />
-
-    <div class="preview-pane__divider" />
 
     <CodeExport />
   </div>
@@ -64,7 +60,7 @@ function showNotification(): void {
   position: relative;
   background-color: var(--bg-elevated);
   border-radius: $radius-md;
-  min-height: 200px;
+  min-height: 295px;
   padding: $space-4;
   margin-top: $space-5;
   display: flex;
@@ -104,12 +100,6 @@ function showNotification(): void {
     align-items: flex-end;
     justify-content: flex-end;
   }
-}
-
-.preview-pane__divider {
-  border: none;
-  border-top: 1px solid var(--border-default);
-  margin: $space-5 0 0;
 }
 
 .preview-pane__show-btn {

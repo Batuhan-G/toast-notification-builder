@@ -122,7 +122,7 @@ async function copyToClipboard(): Promise<void> {
 .code-export__error {
   margin: $space-2 0 0;
   font-size: $font-size-xs;
-  color: var(--color-danger);
+  color: var(--type-error);
 }
 
 </style>

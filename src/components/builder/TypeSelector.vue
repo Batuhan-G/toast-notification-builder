@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { NotificationType } from '@/types/notification'
 import { NOTIFICATION_TYPES, TYPE_LABELS } from '@/constants'
-import { TYPE_DEFAULTS } from '@/utils/defaults'
 import { TYPE_ICONS } from '@/components/icons/typeIcons'
 
 defineProps<{
@@ -11,7 +10,6 @@ defineProps<{
 const emit = defineEmits<{
   'update:modelValue': [value: NotificationType]
 }>()
-
 </script>
 
 <template>
@@ -23,17 +21,11 @@ const emit = defineEmits<{
         :key="type"
         type="button"
         class="type-selector__card"
-        :class="{ 'type-selector__card--active': modelValue === type }"
+        :class="[
+          `type-selector__card--${type}`,
+          { 'type-selector__card--active': modelValue === type },
+        ]"
         :aria-pressed="modelValue === type"
-        :style="
-          modelValue === type
-            ? {
-                backgroundColor: TYPE_DEFAULTS[type].backgroundColor,
-                color: TYPE_DEFAULTS[type].textColor,
-                borderColor: TYPE_DEFAULTS[type].backgroundColor,
-              }
-            : { color: TYPE_DEFAULTS[type].backgroundColor }
-        "
         @click="emit('update:modelValue', type)"
       >
         <span class="type-selector__icon" v-html="TYPE_ICONS[type]" />
@@ -45,7 +37,6 @@ const emit = defineEmits<{
 
 <style scoped lang="scss">
 @use '@/styles/variables' as *;
-@use '@/styles/typography' as *;
 
 .type-selector {
   border: none;
@@ -68,7 +59,6 @@ const emit = defineEmits<{
   border: 2px solid var(--border-default);
   border-radius: $radius-md;
   background-color: var(--bg-surface);
-  color: var(--text-secondary);
   cursor: pointer;
   transition:
     border-color 150ms ease,
@@ -91,7 +81,49 @@ const emit = defineEmits<{
   justify-content: center;
 }
 
+.type-selector__card--success .type-selector__icon {
+  color: var(--type-success);
+}
+.type-selector__card--error .type-selector__icon {
+  color: var(--type-error);
+}
+.type-selector__card--warning .type-selector__icon {
+  color: var(--type-warning);
+}
+.type-selector__card--info .type-selector__icon {
+  color: var(--type-info);
+}
+
 .type-selector__label {
-  @include label-xs;
+  font-size: $font-size-xs;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.type-selector__card--active {
+  .type-selector__icon,
+  .type-selector__label {
+    color: var(--text-on-accent);
+  }
+
+  &.type-selector__card--success {
+    background-color: var(--type-success-active);
+    border-color: var(--type-success-active);
+  }
+
+  &.type-selector__card--error {
+    background-color: var(--type-error-active);
+    border-color: var(--type-error-active);
+  }
+
+  &.type-selector__card--warning {
+    background-color: var(--type-warning-active);
+    border-color: var(--type-warning-active);
+  }
+
+  &.type-selector__card--info {
+    background-color: var(--type-info-active);
+    border-color: var(--type-info-active);
+  }
 }
 </style>

@@ -7,10 +7,3 @@ export const TYPE_LABELS: Record<NotificationType, string> = {
   warning: 'Warning',
   info: 'Info',
 }
-
-export const TYPE_COLORS: Record<NotificationType, string> = {
-  success: '#22c55e',
-  error: '#ef4444',
-  warning: '#f59e0b',
-  info: '#3b82f6',
-}

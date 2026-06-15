@@ -179,7 +179,7 @@ function onAnimationChange(animation: AnimationStyle): void {
     color: var(--text-muted);
   }
 
-  &:focus {
+  &:focus-visible {
     outline: none;
     border-color: var(--border-focus);
   }

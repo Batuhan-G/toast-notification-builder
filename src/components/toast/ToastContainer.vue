@@ -15,7 +15,7 @@ const notifications = useNotificationsStore()
         class="toast-container"
         :class="`toast-container--${position}`"
       >
-        <TransitionGroup name="toast" tag="div" class="toast-stack">
+        <TransitionGroup name="toast" tag="div" class="toast-stack" aria-live="polite" aria-atomic="false">
           <ToastItem
             v-for="toast in notifications.byPosition[position]"
             :key="toast.id"
@@ -51,7 +51,6 @@ const notifications = useNotificationsStore()
   gap: $space-2;
 }
 
-// Top positions
 .toast-container--top-left {
   top: 0;
   left: 0;
@@ -68,7 +67,6 @@ const notifications = useNotificationsStore()
   right: 0;
 }
 
-// Bottom positions
 .toast-container--bottom-left {
   bottom: 0;
   left: 0;

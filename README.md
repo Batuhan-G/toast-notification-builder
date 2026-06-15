@@ -2,6 +2,8 @@
 
 A toast notification configuration tool built with Vue 3 and TypeScript. Users configure toast notifications (type, title, message, duration, position, colors, icon/close toggles, animation, custom icon), see a live preview, trigger real toasts that stack at the chosen position, and save/load/delete presets persisted in localStorage. The builder supports a light/dark theme toggle.
 
+**Live Demo:** https://toast-notification-builder-mu.vercel.app/
+
 ## Setup
 
 **Prerequisites:** Node.js >= 18
@@ -43,3 +45,24 @@ All six bonus features are implemented:
 4. **Progress bar** -- visual countdown bar on timed toasts
 5. **Custom icon upload** -- upload a custom image (max 100 KB) to replace the default type icon
 6. **Dark/light theme toggle** -- builder chrome themes via CSS custom properties; toast colors stay user-configured
+
+## Testing
+
+The project uses Jest with Vue Test Utils. 12 tests across 6 suites cover the critical paths:
+
+- **notifications store** -- toast lifecycle (show, auto-dismiss with fake timers, persistent mode, manual dismiss)
+- **builder store** -- type change applies default colors and resets `colorsCustomized`
+- **presets store** -- delete removes preset and persists to localStorage
+- **iconUpload utils** -- validates MIME type, file size limit (100 KB), and accepts valid files
+- **codeExport utils** -- generated snippet matches expected output
+- **ToastItem component** -- renders title/message, emits `close` on button click
+
+```bash
+npm run test       # run full suite
+```
+
+## What I'd Do With More Time
+
+1. **Pause-on-hover for progress bar** -- pause the countdown timer when the user hovers over a toast, resume on mouse leave.
+2. **E2E tests with Cypress or Playwright** -- cover the full configure-preview-trigger-dismiss flow in a real browser.
+3. **Drag-and-drop preset reordering** -- let users organize their saved presets.
