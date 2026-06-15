@@ -68,7 +68,6 @@ docs: add readme with setup, approach and assumptions
 3. Approach: stack, store layout, why shared ToastItem, how stacking/timers work (5–8 sentences)
 4. Assumptions: list from `docs/REQUIREMENTS.md`
 5. Bonus features implemented
-6. What I'd do with more time (1–3 honest items, e.g. pause-on-hover for progress, E2E test)
 
 ## AI-assisted workflow
 

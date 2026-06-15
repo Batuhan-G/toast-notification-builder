@@ -60,9 +60,3 @@ The project uses Jest with Vue Test Utils. 12 tests across 6 suites cover the cr
 ```bash
 npm run test       # run full suite
 ```
-
-## What I'd Do With More Time
-
-1. **Pause-on-hover for progress bar** -- pause the countdown timer when the user hovers over a toast, resume on mouse leave.
-2. **E2E tests with Cypress or Playwright** -- cover the full configure-preview-trigger-dismiss flow in a real browser.
-3. **Drag-and-drop preset reordering** -- let users organize their saved presets.
